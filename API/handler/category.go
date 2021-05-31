@@ -67,3 +67,30 @@ func (h *categoryHandler) ShowCategoryByNameHandler(c *gin.Context) {
 	response := helper.APIResponse("get category succeed", 200, "success", category)
 	c.JSON(200, response)
 }
+
+func (h *categoryHandler) UpdateCategoryByNameHandler(c *gin.Context) {
+
+	categoryName := c.Params.ByName("category_name")
+
+	var updateInputCategory entity.UpdateCategoryInput
+
+	if err := c.ShouldBindJSON(&updateInputCategory); err != nil {
+		splitError := helper.SplitErrorInformation(err)
+		responseError := helper.APIResponse("input data required", 400, "bad request", gin.H{"errors": splitError})
+
+		c.JSON(400, responseError)
+		return
+	}
+
+	updateCategory, err := h.categoryService.UpdateCategoryByName(categoryName, updateInputCategory)
+
+	if err != nil {
+		responseError := helper.APIResponse("internal server error", 500, "error", gin.H{"error": err.Error()})
+
+		c.JSON(500, responseError)
+		return
+	}
+
+	response := helper.APIResponse("success update category by name", 200, "success", updateCategory)
+	c.JSON(200, response)
+}

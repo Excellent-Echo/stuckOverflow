@@ -8,9 +8,10 @@ import (
 )
 
 type CategoryService interface {
-	GetAllCategories() ([]CategoryFormat, error)
+	GetAllCategories() ([]InputCategoryFormat, error)
 	SaveNewCategory(category entity.CategoryInput) (InputCategoryFormat, error)
-	FindCategoryByName(categoryName string) (CategoryFormat, error)
+	FindCategoryByName(categoryName string) (entity.Categories, error)
+	UpdateCategoryByName(categoryID string, dataInput entity.UpdateCategoryInput) (InputCategoryFormat, error)
 }
 
 type categoryService struct {
@@ -21,13 +22,13 @@ func NewService(repository CategoryRepository) *categoryService {
 	return &categoryService{repository}
 }
 
-func (s *categoryService) GetAllCategories() ([]CategoryFormat, error) {
+func (s *categoryService) GetAllCategories() ([]InputCategoryFormat, error) {
 	categories, err := s.repository.GetAll()
 
-	var categoriesFormat []CategoryFormat
+	var categoriesFormat []InputCategoryFormat
 
 	for _, category := range categories {
-		var categoryFormat = FormattingCategory(category)
+		var categoryFormat = FormattingInputCategory(category)
 		categoriesFormat = append(categoriesFormat, categoryFormat)
 	}
 
@@ -41,6 +42,7 @@ func (s *categoryService) GetAllCategories() ([]CategoryFormat, error) {
 func (s *categoryService) SaveNewCategory(category entity.CategoryInput) (InputCategoryFormat, error) {
 	var newCategory = entity.Categories{
 		CategoryName: category.CategoryName,
+		Description:  category.Description,
 	}
 
 	createCategory, err := s.repository.NewCategory(newCategory)
@@ -53,19 +55,50 @@ func (s *categoryService) SaveNewCategory(category entity.CategoryInput) (InputC
 	return formatCategory, nil
 }
 
-func (s *categoryService) FindCategoryByName(categoryName string) (CategoryFormat, error) {
+func (s *categoryService) FindCategoryByName(categoryName string) (entity.Categories, error) {
 	category, err := s.repository.FindCategoryName(categoryName)
 
 	if err != nil {
-		return CategoryFormat{}, err
+		return entity.Categories{}, err
 	}
 
 	if category.CategoryName == "" {
 		newError := fmt.Sprintf("category %s is not found", categoryName)
-		return CategoryFormat{}, errors.New(newError)
+		return entity.Categories{}, errors.New(newError)
 	}
 
-	categoryFormat := FormattingCategory(category)
+	// categoryFormat := FormattingCategory(category)
 
-	return categoryFormat, nil
+	return category, nil
+}
+
+func (s *categoryService) UpdateCategoryByName(categoryName string, dataInput entity.UpdateCategoryInput) (InputCategoryFormat, error) {
+	var dataUpdate = map[string]interface{}{}
+
+	category, err := s.repository.FindCategoryName(categoryName)
+
+	if err != nil {
+		return InputCategoryFormat{}, err
+	}
+
+	if category.ID == 0 {
+		newError := fmt.Sprintf("category name %s not found", categoryName)
+		return InputCategoryFormat{}, errors.New(newError)
+	}
+
+	if dataInput.CategoryName != "" || len(dataInput.CategoryName) != 0 {
+		dataUpdate["category_name"] = dataInput.CategoryName
+	}
+	if dataInput.Description != "" || len(dataInput.Description) != 0 {
+		dataUpdate["description"] = dataInput.Description
+	}
+
+	catUpdated, err := s.repository.UpdateByID(categoryName, dataUpdate)
+	formatCatUpdated := FormattingInputCategory(catUpdated)
+
+	if err != nil {
+		return formatCatUpdated, err
+	}
+
+	return formatCatUpdated, nil
 }
