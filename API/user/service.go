@@ -16,6 +16,7 @@ type UserService interface {
 	GetAllUsers() ([]UserFormat, error)
 	GetUserByID(id string) (UserFormat, error)
 	UpdateUserByID(id string, dataInput entity.UpdateUserInput) (UserFormat, error)
+	DeleteUserByID(id string) (interface{}, error)
 }
 
 type userService struct {
@@ -157,4 +158,37 @@ func (s *userService) UpdateUserByID(id string, dataInput entity.UpdateUserInput
 	formatUser := FormattingUser(userUpdated)
 
 	return formatUser, nil
+}
+
+func (s *userService) DeleteUserByID(id string) (interface{}, error) {
+	if err := helper.ValidateIDNumber(id); err != nil {
+		return nil, err
+	}
+
+	user, err := s.repository.GetOneUser(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %s is not found", id)
+		return nil, errors.New(newError)
+	}
+
+	status, err := s.repository.DeleteUser(id)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if status == "error" {
+		return nil, errors.New("error delete in internal server")
+	}
+
+	msg := fmt.Sprintf("delete user id %s succeed", id)
+
+	formatDelete := FormatDelete(msg)
+
+	return formatDelete, nil
 }

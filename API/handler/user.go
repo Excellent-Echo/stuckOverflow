@@ -148,3 +148,30 @@ func (h *userHandler) UpdateUserByIDHandler(c *gin.Context) {
 	response := helper.APIResponse("update user succeed", 200, "success", user)
 	c.JSON(200, response)
 }
+
+func (h *userHandler) DeleteByUserIDHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	idParam, _ := strconv.Atoi(id)
+
+	userData := int(c.MustGet("currentUser").(int))
+
+	if idParam != userData {
+		responseError := helper.APIResponse("Unauthorize", 401, "error", gin.H{"error": "user ID not authorize"})
+
+		c.JSON(401, responseError)
+		return
+	}
+
+	user, err := h.userService.DeleteUserByID(id)
+
+	if err != nil {
+		responseError := helper.APIResponse("input params error", 400, "bad request", gin.H{"errors": err.Error()})
+
+		c.JSON(400, responseError)
+		return
+	}
+
+	userResponse := helper.APIResponse("user was deleted successfully", 200, "success", user)
+	c.JSON(200, userResponse)
+}

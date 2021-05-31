@@ -10,8 +10,8 @@ type UserRepository interface {
 	FindByEmail(email string) (entity.User, error)
 	GetAll() ([]entity.User, error)
 	GetOneUser(id string) (entity.User, error)
-	AddUserDetail(user entity.User) (entity.User, error)
 	UpdateUserDetail(id string, dataUpdate map[string]interface{}) (entity.User, error)
+	DeleteUser(id string) (string, error)
 }
 
 type Repository struct {
@@ -61,14 +61,6 @@ func (r *Repository) GetOneUser(id string) (entity.User, error) {
 	return user, nil
 }
 
-func (r *Repository) AddUserDetail(user entity.User) (entity.User, error) {
-	if err := r.db.Create(&user).Error; err != nil {
-		return user, err
-	}
-
-	return user, nil
-}
-
 func (r *Repository) UpdateUserDetail(id string, dataUpdate map[string]interface{}) (entity.User, error) {
 	var user entity.User
 
@@ -81,4 +73,12 @@ func (r *Repository) UpdateUserDetail(id string, dataUpdate map[string]interface
 	}
 
 	return user, nil
+}
+
+func (r *Repository) DeleteUser(id string) (string, error) {
+	if err := r.db.Where("id = ?", id).Delete(&entity.User{}).Error; err != nil {
+		return "error", err
+	}
+
+	return "success", nil
 }
