@@ -12,15 +12,9 @@ https://xxx
 - `POST /users/register`
 - `POST /users/login`
 - `GET /users/:id`
+- `POST /users/:id`
 - `PUT /users/:id`
 - `DELETE /users/:id`
-
-### user_details
-
-- `GET /users_detail`
-- `GET /users_detail/:id`
-- `POST /users_detail`
-- `PUT /users_detail`
 
 ### questions
 
@@ -141,10 +135,6 @@ _Response (201)_
         "id": 1,
         "user_name": "marwan",
         "email": "marwan@mail.com",
-        "first_name": "",
-        "last_name": "",
-        "avatar": "",
-        "location": ""
     }
 }
 ```

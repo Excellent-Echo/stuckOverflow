@@ -6,12 +6,15 @@ import (
 	"time"
 
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
+	"github.com/Excellent-Echo/stuckOverflow/API/API/helper"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService interface {
 	SaveNewUser(user entity.UserInput) (UserInputFormat, error)
 	LoginUser(input entity.LoginUserInput) (entity.User, error)
+	GetAllUsers() ([]UserFormat, error)
+	GetUserByID(id string) (UserFormat, error)
 }
 
 type userService struct {
@@ -38,7 +41,7 @@ func (s *userService) SaveNewUser(user entity.UserInput) (UserInputFormat, error
 	}
 
 	createUser, err := s.repository.CreateUser(newUser)
-	formatUser := FormattingUser(createUser)
+	formatUser := FormattingUserInput(createUser)
 
 	if err != nil {
 		return formatUser, err
@@ -65,4 +68,43 @@ func (s *userService) LoginUser(input entity.LoginUserInput) (entity.User, error
 	}
 
 	return user, nil
+}
+
+func (s *userService) GetAllUsers() ([]UserFormat, error) {
+	users, err := s.repository.GetAll()
+
+	var usersFormat []UserFormat
+
+	for _, user := range users {
+		var userFormat = FormattingUser(user)
+		usersFormat = append(usersFormat, userFormat)
+	}
+
+	if err != nil {
+		return usersFormat, err
+	}
+
+	return usersFormat, nil
+}
+
+func (s *userService) GetUserByID(id string) (UserFormat, error) {
+	if err := helper.ValidateIDNumber(id); err != nil {
+		return UserFormat{}, err
+	}
+
+	user, err := s.repository.GetOneUser(id)
+
+	if err != nil {
+		return UserFormat{}, err
+	}
+
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %s is not found", id)
+		return UserFormat{}, errors.New(newError)
+	}
+
+	userFormat := FormattingUser(user)
+
+	return userFormat, nil
+
 }
