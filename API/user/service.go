@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
+	"github.com/Excellent-Echo/stuckOverflow/API/API/helper"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -13,6 +14,7 @@ type UserService interface {
 	SaveNewUser(user entity.UserInput) (UserInputFormat, error)
 	LoginUser(input entity.LoginUserInput) (entity.User, error)
 	GetAllUsers() ([]UserFormat, error)
+	GetUserByID(id string) (UserFormat, error)
 }
 
 type userService struct {
@@ -83,4 +85,26 @@ func (s *userService) GetAllUsers() ([]UserFormat, error) {
 	}
 
 	return usersFormat, nil
+}
+
+func (s *userService) GetUserByID(id string) (UserFormat, error) {
+	if err := helper.ValidateIDNumber(id); err != nil {
+		return UserFormat{}, err
+	}
+
+	user, err := s.repository.GetOneUser(id)
+
+	if err != nil {
+		return UserFormat{}, err
+	}
+
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %s is not found", id)
+		return UserFormat{}, errors.New(newError)
+	}
+
+	userFormat := FormattingUser(user)
+
+	return userFormat, nil
+
 }

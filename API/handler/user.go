@@ -96,3 +96,18 @@ func (h *userHandler) ShowAllUsersHandler(c *gin.Context) {
 	userResponse := helper.APIResponse("get all users succeed", 200, "success", users)
 	c.JSON(200, userResponse)
 }
+
+func (h *userHandler) ShowUserByIdHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	user, err := h.userService.GetUserByID(id)
+	if err != nil {
+		responseError := helper.APIResponse("input params error", 400, "bad request", gin.H{"errors": err.Error()})
+
+		c.JSON(400, responseError)
+		return
+	}
+
+	userResponse := helper.APIResponse("get user succeed", 200, "success", user)
+	c.JSON(200, userResponse)
+}

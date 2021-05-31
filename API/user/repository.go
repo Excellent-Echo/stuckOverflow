@@ -9,6 +9,7 @@ type UserRepository interface {
 	CreateUser(user entity.User) (entity.User, error)
 	FindByEmail(email string) (entity.User, error)
 	GetAll() ([]entity.User, error)
+	GetOneUser(id string) (entity.User, error)
 }
 
 type Repository struct {
@@ -46,4 +47,14 @@ func (r *Repository) GetAll() ([]entity.User, error) {
 	}
 
 	return Users, nil
+}
+
+func (r *Repository) GetOneUser(id string) (entity.User, error) {
+	var user entity.User
+
+	if err := r.db.Where("id = ?", id).Find(&user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
 }
