@@ -26,11 +26,10 @@ func Connect() *gorm.DB {
 		panic(err.Error())
 	}
 
-	db.AutoMigrate(&entity.User{})
+	db.AutoMigrate(&entity.User{}, &entity.UserDetail{})
 	db.AutoMigrate(&entity.Questions{})
 	db.AutoMigrate(&entity.Categories{})
 	db.AutoMigrate(&entity.Answers{})
-	db.AutoMigrate(&entity.UserDetail{})
 
 	return db
 }
