@@ -12,6 +12,7 @@ import (
 type UserService interface {
 	SaveNewUser(user entity.UserInput) (UserInputFormat, error)
 	LoginUser(input entity.LoginUserInput) (entity.User, error)
+	GetAllUsers() ([]UserFormat, error)
 }
 
 type userService struct {
@@ -38,7 +39,7 @@ func (s *userService) SaveNewUser(user entity.UserInput) (UserInputFormat, error
 	}
 
 	createUser, err := s.repository.CreateUser(newUser)
-	formatUser := FormattingUser(createUser)
+	formatUser := FormattingUserInput(createUser)
 
 	if err != nil {
 		return formatUser, err
@@ -65,4 +66,21 @@ func (s *userService) LoginUser(input entity.LoginUserInput) (entity.User, error
 	}
 
 	return user, nil
+}
+
+func (s *userService) GetAllUsers() ([]UserFormat, error) {
+	users, err := s.repository.GetAll()
+
+	var usersFormat []UserFormat
+
+	for _, user := range users {
+		var userFormat = FormattingUser(user)
+		usersFormat = append(usersFormat, userFormat)
+	}
+
+	if err != nil {
+		return usersFormat, err
+	}
+
+	return usersFormat, nil
 }
