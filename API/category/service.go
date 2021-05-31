@@ -5,13 +5,15 @@ import (
 	"fmt"
 
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
+	"github.com/Excellent-Echo/stuckOverflow/API/API/question"
 )
 
 type CategoryService interface {
 	GetAllCategories() ([]InputCategoryFormat, error)
 	SaveNewCategory(category entity.CategoryInput) (InputCategoryFormat, error)
-	FindCategoryByName(categoryName string) (entity.Categories, error)
+	FindCategoryByName(categoryName string) (CategoryFormat, error)
 	UpdateCategoryByName(categoryID string, dataInput entity.UpdateCategoryInput) (InputCategoryFormat, error)
+	GetAllQuestionsByCategory(categoryName string) ([]question.QuestionFormat, error)
 }
 
 type categoryService struct {
@@ -55,21 +57,21 @@ func (s *categoryService) SaveNewCategory(category entity.CategoryInput) (InputC
 	return formatCategory, nil
 }
 
-func (s *categoryService) FindCategoryByName(categoryName string) (entity.Categories, error) {
+func (s *categoryService) FindCategoryByName(categoryName string) (CategoryFormat, error) {
 	category, err := s.repository.FindCategoryName(categoryName)
 
 	if err != nil {
-		return entity.Categories{}, err
+		return CategoryFormat{}, err
 	}
 
 	if category.CategoryName == "" {
 		newError := fmt.Sprintf("category %s is not found", categoryName)
-		return entity.Categories{}, errors.New(newError)
+		return CategoryFormat{}, errors.New(newError)
 	}
 
-	// categoryFormat := FormattingCategory(category)
+	categoryFormat := FormattingCategory(category)
 
-	return category, nil
+	return categoryFormat, nil
 }
 
 func (s *categoryService) UpdateCategoryByName(categoryName string, dataInput entity.UpdateCategoryInput) (InputCategoryFormat, error) {
@@ -101,4 +103,25 @@ func (s *categoryService) UpdateCategoryByName(categoryName string, dataInput en
 	}
 
 	return formatCatUpdated, nil
+}
+
+func (s *categoryService) GetAllQuestionsByCategory(categoryName string) ([]question.QuestionFormat, error) {
+	category, _ := s.repository.FindCategoryName(categoryName)
+
+	categoryID := int(category.ID)
+
+	questions, err := s.repository.GetAllQuestionsByCategory(categoryID)
+
+	var questionsFormat []question.QuestionFormat
+
+	for _, q := range questions {
+		var questionFormat = question.FormattingQuestion(q)
+		questionsFormat = append(questionsFormat, questionFormat)
+	}
+
+	if err != nil {
+		return questionsFormat, err
+	}
+
+	return questionsFormat, nil
 }
