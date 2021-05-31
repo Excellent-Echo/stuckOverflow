@@ -3,6 +3,7 @@ package user
 import (
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
@@ -15,6 +16,7 @@ type UserService interface {
 	LoginUser(input entity.LoginUserInput) (entity.User, error)
 	GetAllUsers() ([]UserFormat, error)
 	GetUserByID(id string) (UserFormat, error)
+	AddUserDetailByID(id int, input entity.InputUserDetail) (UserDetailFormat, error)
 }
 
 type userService struct {
@@ -107,4 +109,23 @@ func (s *userService) GetUserByID(id string) (UserFormat, error) {
 
 	return userFormat, nil
 
+}
+
+func (s *userService) AddUserDetailByID(id int, input entity.InputUserDetail) (UserDetailFormat, error) {
+	var userDetail = entity.UserDetail{
+		UserID:    uint32(id),
+		FirstName: input.FirstName,
+		LastName:  input.LastName,
+		Location:  input.Location,
+	}
+
+	addUserDetail, err := s.repository.AddUserDetail(userDetail)
+	userData, _ := s.repository.GetOneUser(strconv.Itoa(id))
+	formatUser := FormattingUserDetail(userData, addUserDetail)
+
+	if err != nil {
+		return formatUser, err
+	}
+
+	return formatUser, nil
 }

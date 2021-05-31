@@ -111,3 +111,28 @@ func (h *userHandler) ShowUserByIdHandler(c *gin.Context) {
 	userResponse := helper.APIResponse("get user succeed", 200, "success", user)
 	c.JSON(200, userResponse)
 }
+
+func (h *userHandler) AddUserDetailHandler(c *gin.Context) {
+	var inputUser entity.InputUserDetail
+
+	if err := c.ShouldBindJSON(&inputUser); err != nil {
+		splitError := helper.SplitErrorInformation(err)
+		responseError := helper.APIResponse("input data required", 400, "bad request", gin.H{"errors": splitError})
+
+		c.JSON(400, responseError)
+		return
+	}
+
+	userID := int(c.MustGet("currentUser").(int))
+
+	response, err := h.userService.AddUserDetailByID(userID, inputUser)
+	if err != nil {
+		responseError := helper.APIResponse("internal server error", 500, "error", gin.H{"error": err.Error()})
+
+		c.JSON(500, responseError)
+		return
+	}
+
+	userResponse := helper.APIResponse("insert user detail data succeed", 201, "success", response)
+	c.JSON(201, userResponse)
+}

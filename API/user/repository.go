@@ -10,6 +10,7 @@ type UserRepository interface {
 	FindByEmail(email string) (entity.User, error)
 	GetAll() ([]entity.User, error)
 	GetOneUser(id string) (entity.User, error)
+	AddUserDetail(user entity.UserDetail) (entity.UserDetail, error)
 }
 
 type Repository struct {
@@ -52,7 +53,15 @@ func (r *Repository) GetAll() ([]entity.User, error) {
 func (r *Repository) GetOneUser(id string) (entity.User, error) {
 	var user entity.User
 
-	if err := r.db.Where("id = ?", id).Find(&user).Error; err != nil {
+	if err := r.db.Preload("User").Where("id = ?", id).Find(&user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (r *Repository) AddUserDetail(user entity.UserDetail) (entity.UserDetail, error) {
+	if err := r.db.Create(&user).Error; err != nil {
 		return user, err
 	}
 

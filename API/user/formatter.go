@@ -13,11 +13,18 @@ type UserInputFormat struct {
 }
 
 type UserFormat struct {
+	UserID   uint32            `json:"id"`
+	UserName string            `json:"user_name"`
+	Email    string            `json:"email"`
+	User     entity.UserDetail `json:"user_detail"`
+}
+
+type UserDetailFormat struct {
 	UserID    uint32 `json:"id"`
 	UserName  string `json:"user_name"`
+	Email     string `json:"email"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
 	Avatar    string `json:"avatar"`
 	Location  string `json:"location"`
 }
@@ -37,15 +44,26 @@ func FormattingUserInput(user entity.User) UserInputFormat {
 	return userFormat
 }
 
-func FormattingUser(user entity.User) UserFormat {
-	userFormat := UserFormat{
+func FormattingUserDetail(user entity.User, userDetail entity.UserDetail) UserDetailFormat {
+	userFormat := UserDetailFormat{
 		UserID:    user.ID,
 		UserName:  user.UserName,
-		FirstName: user.User.FirstName,
-		LastName:  user.User.LastName,
 		Email:     user.Email,
-		Avatar:    user.User.Avatar,
-		Location:  user.User.Location,
+		FirstName: userDetail.FirstName,
+		LastName:  userDetail.LastName,
+		Avatar:    userDetail.Avatar,
+		Location:  userDetail.Location,
+	}
+
+	return userFormat
+}
+
+func FormattingUser(user entity.User) UserFormat {
+	userFormat := UserFormat{
+		UserID:   user.ID,
+		UserName: user.UserName,
+		Email:    user.Email,
+		User:     user.User,
 	}
 
 	return userFormat
