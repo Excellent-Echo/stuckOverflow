@@ -51,3 +51,34 @@ func (h *userHandler) CreateUserHandler(c *gin.Context) {
 	userResponse := helper.APIResponse("insert user data succeed", 201, "success", response)
 	c.JSON(201, userResponse)
 }
+
+func (h *userHandler) LoginUserHandler(c *gin.Context) {
+	var inputLoginUser entity.LoginUserInput
+
+	if err := c.ShouldBindJSON(&inputLoginUser); err != nil {
+		splitError := helper.SplitErrorInformation(err)
+		responseError := helper.APIResponse("input data required", 400, "bad request", gin.H{"errors": splitError})
+
+		c.JSON(400, responseError)
+		return
+	}
+
+	userData, err := h.userService.LoginUser(inputLoginUser)
+
+	if err != nil {
+		responseError := helper.APIResponse("input data error", 401, "bad request", gin.H{"errors": err})
+
+		c.JSON(401, responseError)
+		return
+	}
+
+	token, err := h.authService.GenerateToken(int(userData.ID))
+	if err != nil {
+		responseError := helper.APIResponse("input data error", 401, "bad request", gin.H{"errors": err})
+
+		c.JSON(401, responseError)
+		return
+	}
+	response := helper.APIResponse("login user succeed", 200, "success", gin.H{"token": token})
+	c.JSON(200, response)
+}

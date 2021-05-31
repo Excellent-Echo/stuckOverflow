@@ -1,6 +1,8 @@
 package user
 
 import (
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
@@ -9,6 +11,7 @@ import (
 
 type UserService interface {
 	SaveNewUser(user entity.UserInput) (UserInputFormat, error)
+	LoginUser(input entity.LoginUserInput) (entity.User, error)
 }
 
 type userService struct {
@@ -42,4 +45,24 @@ func (s *userService) SaveNewUser(user entity.UserInput) (UserInputFormat, error
 	}
 
 	return formatUser, nil
+}
+
+func (s *userService) LoginUser(input entity.LoginUserInput) (entity.User, error) {
+	user, err := s.repository.FindByEmail(input.Email)
+
+	if err != nil {
+		return user, err
+	}
+
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %v not found", user.ID)
+		return user, errors.New(newError)
+	}
+
+	// check password
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
+		return user, errors.New("invalid password")
+	}
+
+	return user, nil
 }

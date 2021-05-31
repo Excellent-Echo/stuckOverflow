@@ -19,4 +19,5 @@ var (
 
 func UserRoute(r *gin.Engine) {
 	r.POST("/users/register", userHandler.CreateUserHandler)
+	r.POST("/users/login", userHandler.LoginUserHandler)
 }
