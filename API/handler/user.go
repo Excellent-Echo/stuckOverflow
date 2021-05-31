@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/Excellent-Echo/stuckOverflow/API/API/auth"
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
@@ -112,10 +113,12 @@ func (h *userHandler) ShowUserByIdHandler(c *gin.Context) {
 	c.JSON(200, userResponse)
 }
 
-func (h *userHandler) AddUserDetailHandler(c *gin.Context) {
-	var inputUser entity.InputUserDetail
+func (h *userHandler) UpdateUserByIDHandler(c *gin.Context) {
+	id := c.Params.ByName("id")
 
-	if err := c.ShouldBindJSON(&inputUser); err != nil {
+	var updateUserInput entity.UpdateUserInput
+
+	if err := c.ShouldBindJSON(&updateUserInput); err != nil {
 		splitError := helper.SplitErrorInformation(err)
 		responseError := helper.APIResponse("input data required", 400, "bad request", gin.H{"errors": splitError})
 
@@ -123,9 +126,18 @@ func (h *userHandler) AddUserDetailHandler(c *gin.Context) {
 		return
 	}
 
-	userID := int(c.MustGet("currentUser").(int))
+	idParam, _ := strconv.Atoi(id)
 
-	response, err := h.userService.AddUserDetailByID(userID, inputUser)
+	userData := int(c.MustGet("currentUser").(int))
+
+	if idParam != userData {
+		responseError := helper.APIResponse("Unauthorize", 401, "error", gin.H{"error": "user ID not authorize"})
+
+		c.JSON(401, responseError)
+		return
+	}
+
+	user, err := h.userService.UpdateUserByID(id, updateUserInput)
 	if err != nil {
 		responseError := helper.APIResponse("internal server error", 500, "error", gin.H{"error": err.Error()})
 
@@ -133,6 +145,6 @@ func (h *userHandler) AddUserDetailHandler(c *gin.Context) {
 		return
 	}
 
-	userResponse := helper.APIResponse("insert user detail data succeed", 201, "success", response)
-	c.JSON(201, userResponse)
+	response := helper.APIResponse("update user succeed", 200, "success", user)
+	c.JSON(200, response)
 }

@@ -22,5 +22,5 @@ func UserRoute(r *gin.Engine) {
 	r.POST("/users/login", userHandler.LoginUserHandler)
 	r.GET("/users", handler.Middleware(userService, authService), userHandler.ShowAllUsersHandler)
 	r.GET("/users/:id", handler.Middleware(userService, authService), userHandler.ShowUserByIdHandler)
-	r.POST("/users/:id", handler.Middleware(userService, authService), userHandler.AddUserDetailHandler)
+	r.PUT("/users/:id", handler.Middleware(userService, authService), userHandler.UpdateUserByIDHandler)
 }

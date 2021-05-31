@@ -10,7 +10,8 @@ type UserRepository interface {
 	FindByEmail(email string) (entity.User, error)
 	GetAll() ([]entity.User, error)
 	GetOneUser(id string) (entity.User, error)
-	AddUserDetail(user entity.UserDetail) (entity.UserDetail, error)
+	AddUserDetail(user entity.User) (entity.User, error)
+	UpdateUserDetail(id string, dataUpdate map[string]interface{}) (entity.User, error)
 }
 
 type Repository struct {
@@ -42,7 +43,7 @@ func (r *Repository) FindByEmail(email string) (entity.User, error) {
 func (r *Repository) GetAll() ([]entity.User, error) {
 	var Users []entity.User
 
-	err := r.db.Preload("User").Find(&Users).Error
+	err := r.db.Find(&Users).Error
 	if err != nil {
 		return Users, err
 	}
@@ -53,15 +54,29 @@ func (r *Repository) GetAll() ([]entity.User, error) {
 func (r *Repository) GetOneUser(id string) (entity.User, error) {
 	var user entity.User
 
-	if err := r.db.Preload("User").Where("id = ?", id).Find(&user).Error; err != nil {
+	if err := r.db.Where("id = ?", id).Find(&user).Error; err != nil {
 		return user, err
 	}
 
 	return user, nil
 }
 
-func (r *Repository) AddUserDetail(user entity.UserDetail) (entity.UserDetail, error) {
+func (r *Repository) AddUserDetail(user entity.User) (entity.User, error) {
 	if err := r.db.Create(&user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (r *Repository) UpdateUserDetail(id string, dataUpdate map[string]interface{}) (entity.User, error) {
+	var user entity.User
+
+	if err := r.db.Model(&user).Where("id = ?", id).Updates(dataUpdate).Error; err != nil {
+		return user, err
+	}
+
+	if err := r.db.Where("id = ?", id).Find(&user).Error; err != nil {
 		return user, err
 	}
 

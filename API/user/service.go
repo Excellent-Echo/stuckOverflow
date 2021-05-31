@@ -3,7 +3,6 @@ package user
 import (
 	"errors"
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
@@ -16,7 +15,7 @@ type UserService interface {
 	LoginUser(input entity.LoginUserInput) (entity.User, error)
 	GetAllUsers() ([]UserFormat, error)
 	GetUserByID(id string) (UserFormat, error)
-	AddUserDetailByID(id int, input entity.InputUserDetail) (UserDetailFormat, error)
+	UpdateUserByID(id string, dataInput entity.UpdateUserInput) (UserFormat, error)
 }
 
 type userService struct {
@@ -111,21 +110,51 @@ func (s *userService) GetUserByID(id string) (UserFormat, error) {
 
 }
 
-func (s *userService) AddUserDetailByID(id int, input entity.InputUserDetail) (UserDetailFormat, error) {
-	var userDetail = entity.UserDetail{
-		UserID:    uint32(id),
-		FirstName: input.FirstName,
-		LastName:  input.LastName,
-		Location:  input.Location,
+func (s *userService) UpdateUserByID(id string, dataInput entity.UpdateUserInput) (UserFormat, error) {
+	var dataUpdate = map[string]interface{}{}
+
+	if err := helper.ValidateIDNumber(id); err != nil {
+		return UserFormat{}, err
 	}
 
-	addUserDetail, err := s.repository.AddUserDetail(userDetail)
-	userData, _ := s.repository.GetOneUser(strconv.Itoa(id))
-	formatUser := FormattingUserDetail(userData, addUserDetail)
+	user, err := s.repository.GetOneUser(id)
 
 	if err != nil {
-		return formatUser, err
+		return UserFormat{}, err
 	}
+
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %s is not found", id)
+		return UserFormat{}, errors.New(newError)
+	}
+
+	if dataInput.FirstName != "" || len(dataInput.FirstName) != 0 {
+		dataUpdate["first_name"] = dataInput.FirstName
+	}
+	if dataInput.LastName != "" || len(dataInput.LastName) != 0 {
+		dataUpdate["last_name"] = dataInput.LastName
+	}
+	if dataInput.UserName != "" || len(dataInput.UserName) != 0 {
+		dataUpdate["user_name"] = dataInput.UserName
+	}
+	if dataInput.Email != "" || len(dataInput.Email) != 0 {
+		dataUpdate["email"] = dataInput.Email
+	}
+	if dataInput.Location != "" || len(dataInput.Location) != 0 {
+		dataUpdate["location"] = dataInput.Location
+	}
+
+	dataUpdate["updated_at"] = time.Now()
+
+	fmt.Println(dataUpdate)
+
+	userUpdated, err := s.repository.UpdateUserDetail(id, dataUpdate)
+
+	if err != nil {
+		return UserFormat{}, err
+	}
+
+	formatUser := FormattingUser(userUpdated)
 
 	return formatUser, nil
 }
