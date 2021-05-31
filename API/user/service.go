@@ -8,7 +8,7 @@ import (
 )
 
 type UserService interface {
-	SaveNewUser(user entity.UserInput) (UserFormat, error)
+	SaveNewUser(user entity.UserInput) (UserInputFormat, error)
 }
 
 type userService struct {
@@ -19,11 +19,11 @@ func UserNewService(repository UserRepository) *userService {
 	return &userService{repository}
 }
 
-func (s *userService) SaveNewUser(user entity.UserInput) (UserFormat, error) {
+func (s *userService) SaveNewUser(user entity.UserInput) (UserInputFormat, error) {
 	genPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.MinCost)
 
 	if err != nil {
-		return UserFormat{}, err
+		return UserInputFormat{}, err
 	}
 
 	var newUser = entity.User{
