@@ -1,7 +1,7 @@
 # StuckOverflow
 
 ```
-https://stuckoverflow.herokuapp.com
+https://xxx
 ```
 
 ## List of available endpoints
@@ -12,7 +12,6 @@ https://stuckoverflow.herokuapp.com
 - `POST /users/register`
 - `POST /users/login`
 - `GET /users/:id`
-- `POST /users/:id`
 - `PUT /users/:id`
 - `DELETE /users/:id`
 
@@ -69,16 +68,20 @@ _Response (200)_
         {
             "id": 1,
             "user_name": "marwan",
-            "first_name": "marwan",
-            "last_name": "juna",
-            "email": "marwan@mail.com"
+            "email": "marwan@mail.com",
+            "first_name": "marwan2",
+            "last_name": "marwan2",
+            "avatar": "",
+            "location": "Indonesia"
         },
         {
             "id": 2,
-            "user_name": "uchihasasuke",
-            "first_name": "uchiha",
-            "last_name": "saske",
-            "email": "uchiha@mail.com"
+            "user_name": "kezia",
+            "email": "kezia@mail.com",
+            "first_name": "",
+            "last_name": "",
+            "avatar": "",
+            "location": ""
         }
     ]
 }
@@ -285,11 +288,13 @@ _Response (200)_
         "status": "success"
     },
     "data": {
-        "id": 3,
-        "user_name": "boruto",
-        "first_name": "uzumaki",
-        "last_name": "boruto",
-        "email": "boruto@mail.com"
+        "id": 1,
+        "user_name": "marwan",
+        "email": "marwan@mail.com",
+        "first_name": "marwan2",
+        "last_name": "marwan2",
+        "avatar": "",
+        "location": "Indonesia"
     }
 }
 ```
@@ -341,11 +346,13 @@ _Response (200)_
         "status": "success"
     },
     "data": {
-        "id": 3,
-        "user_name": "boruto",
-        "first_name": "boruto",
-        "last_name": "boruto",
-        "email": "boruto@mail.com"
+        "id": 1,
+        "user_name": "marwan",
+        "email": "marwan@mail.com",
+        "first_name": "marwan",
+        "last_name": "marwan",
+        "avatar": "",
+        "location": "Indonesia"
     }
 }
 ```
@@ -395,8 +402,8 @@ _Response (200)_
         "status": "success"
     },
     "data": {
-        "message": "delete user id 3 succeed",
-        "delete_time": "2021-05-27T05:55:25.705047677Z"
+        "message": "delete user id 2 succeed",
+        "delete_time": "2021-05-31T17:21:59.7646992+07:00"
     }
 }
 ```
