@@ -1,7 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"os"
+
+	"github.com/Excellent-Echo/stuckOverflow/API/API/routes"
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	r := gin.Default()
+
+	routes.UserRoute(r)
+
+	port := os.Getenv("PORT")
+	r.Run(":" + port)
 }
