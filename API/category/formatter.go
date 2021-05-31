@@ -9,6 +9,14 @@ type CategoryFormat struct {
 	Questions    []entity.Questions `json:"questions"`
 }
 
+type QuestionsList struct {
+	ID        uint64 `json:"id"`
+	Title     string `json:"title"`
+	Content   string `json:"content"`
+	ImageFile string `json:"image_file"`
+	UserID    uint32 `json:"user_id"`
+}
+
 type InputCategoryFormat struct {
 	ID           uint64 `json:"id"`
 	CategoryName string `json:"category_name"`
@@ -20,7 +28,6 @@ func FormattingCategory(category entity.Categories) CategoryFormat {
 		ID:           uint64(category.ID),
 		CategoryName: category.CategoryName,
 		Description:  category.Description,
-		Questions:    category.Questions,
 	}
 
 	return categoryFormat

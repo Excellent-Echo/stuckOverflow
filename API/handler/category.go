@@ -94,3 +94,20 @@ func (h *categoryHandler) UpdateCategoryByNameHandler(c *gin.Context) {
 	response := helper.APIResponse("success update category by name", 200, "success", updateCategory)
 	c.JSON(200, response)
 }
+
+func (h *categoryHandler) ShowAllQuestionsByCategoryHandler(c *gin.Context) {
+	categoryName := c.Params.ByName("category_name")
+
+	questions, err := h.categoryService.GetAllQuestionsByCategory(categoryName)
+
+	if err != nil {
+		responseError := helper.APIResponse("internal server error", 500, "error", gin.H{"error": err.Error()})
+
+		c.JSON(500, responseError)
+		return
+	}
+
+	userResponse := helper.APIResponse("get all questions by category succeed", 200, "success", questions)
+	c.JSON(200, userResponse)
+
+}

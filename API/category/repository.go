@@ -10,6 +10,7 @@ type CategoryRepository interface {
 	NewCategory(category entity.Categories) (entity.Categories, error)
 	FindCategoryName(categoryName string) (entity.Categories, error)
 	UpdateByID(category_name string, dataUpdate map[string]interface{}) (entity.Categories, error)
+	GetAllQuestionsByCategory(categoryID int) ([]entity.Questions, error)
 }
 
 type Repository struct {
@@ -42,9 +43,7 @@ func (r *Repository) NewCategory(category entity.Categories) (entity.Categories,
 func (r *Repository) FindCategoryName(categoryName string) (entity.Categories, error) {
 	var category entity.Categories
 
-	if err := r.db.Where("category_name = ?", categoryName).Preload("Questions", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id", "title", "content", "image_file", "user_id")
-	}).Find(&category).Error; err != nil {
+	if err := r.db.Where("category_name = ?", categoryName).Preload("Questions").Find(&category).Error; err != nil {
 		return category, err
 	}
 
@@ -63,5 +62,15 @@ func (r *Repository) UpdateByID(categoryName string, dataUpdate map[string]inter
 	}
 
 	return category, nil
+}
 
+func (r *Repository) GetAllQuestionsByCategory(categoryID int) ([]entity.Questions, error) {
+	var Questions []entity.Questions
+
+	err := r.db.Where("category_id = ?", categoryID).Preload("User").Preload("Category").Preload("Answers").Find(&Questions).Error
+	if err != nil {
+		return Questions, err
+	}
+
+	return Questions, nil
 }

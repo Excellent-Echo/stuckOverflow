@@ -28,6 +28,7 @@ https://stuckoverflow.herokuapp.com
 - `POST /questions/ask`
 - `PUT /questions/:id/edit`
 - `DELETE /questions/:id`
+- `GET /questions/categories/:category_name`
 
 ### answers
 
@@ -43,7 +44,7 @@ https://stuckoverflow.herokuapp.com
 
 _Request Header_
 
-```
+```go
 {
    "Authorization": "<your Authorization>"
 }
@@ -51,13 +52,13 @@ _Request Header_
 
 _Request Body_
 
-```
+```go
 not needed
 ```
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "get all users succeed",
@@ -69,8 +70,8 @@ _Response (200)_
             "id": 1,
             "user_name": "marwan",
             "email": "marwan@mail.com",
-            "first_name": "marwan2",
-            "last_name": "marwan2",
+            "first_name": "marwan",
+            "last_name": "marwan",
             "avatar": "",
             "location": "Indonesia"
         },
@@ -89,7 +90,7 @@ _Response (200)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta": {
       "message": "Internal Server error",
@@ -111,13 +112,13 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 not needed
 ```
 
 _Request Body_
 
-```
+```go
 {
   "user_name": "<user name to get insert into>",
   "email": "<email to get insert into>",
@@ -127,7 +128,7 @@ _Request Body_
 
 _Response (201)_
 
-```
+```go
 {
     "meta": {
         "message": "insert user data succeed",
@@ -144,7 +145,7 @@ _Response (201)_
 
 _Response (400 - Bad Request)_
 
-```
+```go
 {
   "meta": {
       "message": "input data required",
@@ -160,7 +161,7 @@ _Response (400 - Bad Request)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta": {
       "message": "Internal Server error",
@@ -182,13 +183,13 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 not needed
 ```
 
 _Request Body_
 
-```
+```go
 {
   "email": "<email to get compare>",
   "password": "<password to get compare>"
@@ -197,7 +198,7 @@ _Request Body_
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "login user succeed",
@@ -212,7 +213,7 @@ _Response (200)_
 
 _Response (400 - Bad Request)_
 
-```
+```go
 {
   "meta": {
       "message": "input data required",
@@ -228,7 +229,7 @@ _Response (400 - Bad Request)_
 
 _Response (401 - Unauthorized)_
 
-```
+```go
 {
     "meta": {
       "message": "input data error",
@@ -244,7 +245,7 @@ _Response (401 - Unauthorized)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta": {
       "message": "Internal Server error",
@@ -266,7 +267,7 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 {
    "Authorization": "<your Authorization>"
 }
@@ -274,13 +275,13 @@ _Request Header_
 
 _Request Body_
 
-```
+```go
 not needed
 ```
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "get user succeed",
@@ -291,8 +292,8 @@ _Response (200)_
         "id": 1,
         "user_name": "marwan",
         "email": "marwan@mail.com",
-        "first_name": "marwan2",
-        "last_name": "marwan2",
+        "first_name": "marwan",
+        "last_name": "marwan",
         "avatar": "",
         "location": "Indonesia"
     }
@@ -301,7 +302,7 @@ _Response (200)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta" : {
       "message": "Internal server error",
@@ -322,7 +323,7 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 {
    "Authorization": "<your Authorization>"
 }
@@ -330,15 +331,15 @@ _Request Header_
 
 _Request Body_
 
-```
+```go
 {
-    "last_name": "boruto"
+    "last_name": "marwan2"
 }
 ```
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "update user succeed",
@@ -350,7 +351,7 @@ _Response (200)_
         "user_name": "marwan",
         "email": "marwan@mail.com",
         "first_name": "marwan",
-        "last_name": "marwan",
+        "last_name": "marwan2",
         "avatar": "",
         "location": "Indonesia"
     }
@@ -359,7 +360,7 @@ _Response (200)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta" : {
       "message": "Internal server error",
@@ -380,7 +381,7 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 {
    "Authorization": "<your Authorization>"
 }
@@ -388,13 +389,13 @@ _Request Header_
 
 _Request Body_
 
-```
+```go
 not needed
 ```
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "user was deleted successfully",
@@ -431,19 +432,19 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 not needed
 ```
 
 _Request Body_
 
-```
+```go
 not needed
 ```
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "get all categories succeed",
@@ -467,7 +468,7 @@ _Response (200)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta": {
       "message": "Internal Server error",
@@ -489,7 +490,7 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 {
    "Authorization": "<your Authorization>"
 }
@@ -497,7 +498,7 @@ _Request Header_
 
 _Request Body_
 
-```
+```go
 {
   "category_name": "<category name>",
   "description": "<description here>"
@@ -506,7 +507,7 @@ _Request Body_
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "insert new category succeed",
@@ -523,7 +524,7 @@ _Response (200)_
 
 _Response (400 - Bad Request)_
 
-```
+```go
 {
   "meta": {
       "message": "input data required",
@@ -539,7 +540,7 @@ _Response (400 - Bad Request)_
 
 _Response (401 - Unauthorized)_
 
-```
+```go
 {
     "meta": {
       "message": "input data error",
@@ -555,7 +556,7 @@ _Response (401 - Unauthorized)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta": {
       "message": "Internal Server error",
@@ -577,19 +578,19 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 not needed
 ```
 
 _Request Body_
 
-```
+```go
 not needed
 ```
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "get category succeed",
@@ -616,7 +617,7 @@ _Response (200)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta" : {
       "message": "Internal server error",
@@ -637,7 +638,7 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 {
    "Authorization": "<your Authorization>"
 }
@@ -645,16 +646,16 @@ _Request Header_
 
 _Request Body_
 
-```
+```go
 {
-    "name" : "todo2",
-    "description" : "description2"
+    "category_name" : "<category name to update>",
+    "description" : "<description here>"
 }
 ```
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "success update category by name",
@@ -671,7 +672,7 @@ _Response (200)_
 
 _Response (400 - Bad Request)_
 
-```
+```go
 {
   "meta" : {
       "message" : "input data required",
@@ -686,7 +687,7 @@ _Response (400 - Bad Request)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta" : {
       "message" : "Internal server error",
@@ -707,19 +708,19 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 not needed
 ```
 
 _Request Body_
 
-```
+```go
 not needed
 ```
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "get all questions succeed",
@@ -753,7 +754,7 @@ _Response (200)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta": {
       "message": "Internal Server error",
@@ -775,19 +776,19 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 not needed
 ```
 
 _Request Body_
 
-```
+```go
 not needed
 ```
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "get question succeed",
@@ -809,7 +810,7 @@ _Response (200)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta": {
       "message": "Internal Server error",
@@ -829,7 +830,7 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 {
     "Authorization" : "<your Authorization>"
 }
@@ -837,17 +838,17 @@ _Request Header_
 
 _Request Body_
 
-```
+```go
 {
   "title" : "<title to get insert into>",
-  "content" : "<description to get insert into>",
+  "content" : "<content to get insert into>",
   "category_id": "<category id to get insert into>",
 }
 ```
 
 _Response (201)_
 
-```
+```go
 {
     "meta": {
         "message": "insert new question succeed",
@@ -866,7 +867,7 @@ _Response (201)_
 
 _Response (400 - Bad Request)_
 
-```
+```go
 {
   "meta" : {
       "message" : "input data required",
@@ -882,7 +883,7 @@ _Response (400 - Bad Request)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta" : {
       "message" : "Internal Server error",
@@ -904,7 +905,7 @@ _Response (500 - Internal Server Error)_
 
 _Request Header_
 
-```
+```go
 {
     "Authorization" : "<your Authorization>"
 }
@@ -912,17 +913,17 @@ _Request Header_
 
 _Request Body_
 
-```
+```go
 {
   "title" : "<title to update>",
-  "content" : "<description to update>",
+  "content" : "<content to update>",
   "category_id": "<category id to update>",
 }
 ```
 
 _Response (201)_
 
-```
+```go
 {
     "meta": {
         "message": "update question succeed",
@@ -944,7 +945,7 @@ _Response (201)_
 
 _Response (400 - Bad Request)_
 
-```
+```go
 {
   "meta" : {
       "message" : "input data required",
@@ -960,7 +961,7 @@ _Response (400 - Bad Request)_
 
 _Response (500 - Internal Server Error)_
 
-```
+```go
 {
   "meta" : {
       "message" : "Internal Server error",
@@ -996,7 +997,7 @@ not needed
 
 _Response (200)_
 
-```
+```go
 {
     "meta": {
         "message": "question was deleted successfully",
@@ -1006,6 +1007,268 @@ _Response (200)_
     "data": {
         "message": "delete question id 3 succeed",
         "delete_time": "2021-05-31T22:15:59.8456443+07:00"
+    }
+}
+```
+
+_Response (500 - Internal Server Error)_
+
+```go
+{
+  "meta" : {
+      "message": "Internal server error",
+      "code": 500,
+      "status": "error"
+  },
+  "data" : {
+      "error": ""
+  }
+}
+```
+
+### GET /questions/categories/:category_name
+
+> Get all questions by category name
+
+_Request Header_
+
+```go
+not needed
+```
+
+_Request Body_
+
+```go
+not needed
+```
+
+_Response (200)_
+
+```go
+{
+    "meta": {
+        "message": "get all questions by category succeed",
+        "code": 200,
+        "status": "success"
+    },
+    "data": [
+        {
+            "id": 2,
+            "title": "Edit The standard Lorem Ipsum passage, used since the 1500s",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "user_id": 1,
+            "user_name": "marwan",
+            "category_id": 1,
+            "category_name": "Golang",
+            "answers": []
+        },
+        {
+            "id": 5,
+            "title": "The standard Lorem Ipsum passage, used since the 1500s",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "user_id": 1,
+            "user_name": "marwan",
+            "category_id": 1,
+            "category_name": "Golang",
+            "answers": []
+        }
+    ]
+}
+```
+
+_Response (500 - Internal Server Error)_
+
+```go
+{
+  "meta": {
+      "message": "Internal Server error",
+      "code": 500,
+      "status": "error"
+  },
+  "data":
+      {
+        "error": ""
+      }
+}
+```
+
+## RESTful endpoints answers
+
+### POST /questions/:id
+
+> Create a new answer by question id
+
+_Request Header_
+
+```go
+{
+    "Authorization" : "<your Authorization>"
+}
+```
+
+_Request Body_
+
+```go
+{
+  "content" : "<content to get insert into>"
+}
+```
+
+_Response (201)_
+
+```go
+{
+    "meta": {
+        "message": "insert new answer succeed",
+        "code": 201,
+        "status": "success"
+    },
+    "data": {
+        "id": 1,
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "image_file": "",
+        "user_id": 1,
+        "question_id": 3
+    }
+}
+```
+
+_Response (400 - Bad Request)_
+
+```go
+{
+  "meta" : {
+      "message" : "input data required",
+      "code" : 400,
+      "status" : "bad request"
+  },
+  "data" :
+      {
+        "errors" : []
+      }
+}
+```
+
+_Response (500 - Internal Server Error)_
+
+```go
+{
+  "meta" : {
+      "message" : "Internal Server error",
+      "code" : 500,
+      "status" : "error"
+  },
+  "data" :
+      {
+        "error" : ""
+      }
+}
+```
+
+---
+
+### PUT /answers/:id
+
+> Update answer by id
+
+_Request Header_
+
+```go
+{
+    "Authorization" : "<your Authorization>"
+}
+```
+
+_Request Body_
+
+```go
+{
+  "content" : "<content to update>"
+}
+```
+
+_Response (201)_
+
+```go
+{
+    "meta": {
+        "message": "update answer succeed",
+        "code": 200,
+        "status": "success"
+    },
+    "data": {
+        "id": 1,
+        "content": "Edit Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "user_id": 1,
+        "question_id": 3
+    }
+}
+```
+
+_Response (400 - Bad Request)_
+
+```go
+{
+  "meta" : {
+      "message" : "input data required",
+      "code" : 400,
+      "status" : "bad request"
+  },
+  "data" :
+      {
+        "errors" : []
+      }
+}
+```
+
+_Response (500 - Internal Server Error)_
+
+```go
+{
+  "meta" : {
+      "message" : "Internal Server error",
+      "code" : 500,
+      "status" : "error"
+  },
+  "data" :
+      {
+        "error" : ""
+      }
+}
+```
+
+---
+
+### DELETE /questions/:id
+
+> Delete question by ID
+
+_Request Header_
+
+```go
+{
+   "Authorization": "<your Authorization>"
+}
+```
+
+_Request Body_
+
+```go
+not needed
+```
+
+_Response (200)_
+
+```go
+{
+    "meta": {
+        "message": "question was deleted successfully",
+        "code": 200,
+        "status": "success"
+    },
+    "data": {
+        "message": "delete answer id 1 succeed",
+        "delete_time": "2021-05-31T22:51:09.0561205+07:00"
     }
 }
 ```
