@@ -12,7 +12,10 @@ type User struct {
 	UserName  string         `gorm:"size:255;not null;unique" json:"user_name"`
 	Email     string         `gorm:"size:255;not null;unique" json:"email"`
 	Password  string         `gorm:"size:255;not null" json:"password"`
-	User      UserDetail     `gorm:"foreignKey:UserID" json:"user_detail"`
+	FirstName string         `gorm:"size:255" json:"first_name"`
+	LastName  string         `gorm:"size:255" json:"last_name"`
+	Avatar    string         `json:"avatar"`
+	Location  string         `json:"location"`
 	CreatedAt time.Time      `gorm:"type:datetime;not null;default:current_timestamp" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"type:datetime;default:current_timestamp" json:"updated_at"`
 	Questions []Questions    `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"questions"`
