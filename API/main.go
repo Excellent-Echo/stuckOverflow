@@ -1,19 +1,24 @@
 package main
 
 import (
-	"github.com/Excellent-Echo/stuckOverflow/API/API/jobsapi"
+	"os"
+
+	"github.com/Excellent-Echo/stuckOverflow/API/API/routes"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// r := gin.Default()
-	// r.Use(cors.Default())
+	// jobsapi.StoreToDB()
+	r := gin.Default()
+	r.Use(cors.Default())
 
-	// routes.UserRoute(r)
-	// routes.QuestionRoute(r)
-	// routes.CategoryRoute(r)
-	// routes.AnswerRoute(r)
+	routes.UserRoute(r)
+	routes.QuestionRoute(r)
+	routes.CategoryRoute(r)
+	routes.AnswerRoute(r)
+	routes.JobRoute(r)
 
-	// port := os.Getenv("PORT")
-	// r.Run(":" + port)
-	jobsapi.StoreToDB()
+	port := os.Getenv("PORT")
+	r.Run(":" + port)
 }

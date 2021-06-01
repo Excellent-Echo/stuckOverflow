@@ -77,13 +77,14 @@ func StoreToDB() {
 	var counter int
 
 	for _, data := range datas.Jobs {
-		_, err := db.Exec("insert into jobs (title, url, company_name, job_type, publication_date) values (?,?,?,?,?)", data.Title, data.Url, data.CompanyName, data.JobType, data.PublicationDate)
+		_, err := db.Exec("insert into jobs (title, url, company_name, job_type, publication_date, description, candidate_required_location) values (?,?,?,?,?,?,?)", data.Title, data.Url, data.CompanyName, data.JobType, data.PublicationDate, data.Description, data.CandidateRequiredLocation)
 		if err != nil {
 			fmt.Println(err.Error())
-			return
+			continue
 		}
 		counter++
-		fmt.Printf("%d insert success!", counter)
+		fmt.Println(counter)
+		fmt.Println("insert success!")
 	}
 
 }

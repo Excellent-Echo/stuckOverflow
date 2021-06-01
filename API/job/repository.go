@@ -2,12 +2,12 @@ package job
 
 import (
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
-	"github.com/Excellent-Echo/stuckOverflow/API/API/jobsapi"
 	"gorm.io/gorm"
 )
 
 type JobRepository interface {
-	SaveAllJobs()
+	GetAllJobs() ([]entity.Jobs, error)
+	GetAllJobsQuery(jobs *entity.Jobs, pagination *entity.Pagination) (*[]entity.Jobs, error)
 }
 
 type Repository struct {
@@ -18,21 +18,27 @@ func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db}
 }
 
-func (r *Repository) SaveAllJobs() {
-	var jobs entity.Jobs
+func (r *Repository) GetAllJobs() ([]entity.Jobs, error) {
+	var Jobs []entity.Jobs
 
-	datas := jobsapi.JobsApi()
-	for _, data := range datas.Jobs {
-		jobs = entity.Jobs{
-			Title:           data.Title,
-			Url:             data.Url,
-			CompanyName:     data.CompanyName,
-			JobType:         data.JobType,
-			PublicationDate: data.PublicationDate,
-		}
-
-		if err := r.db.Select("title", "url", "company_name", "job_type", "publication_date").Create(&jobs).Error; err != nil {
-			return
-		}
+	err := r.db.Find(&Jobs).Error
+	if err != nil {
+		return Jobs, err
 	}
+
+	return Jobs, nil
+}
+
+func (r *Repository) GetAllJobsQuery(job *entity.Jobs, pagination *entity.Pagination) (*[]entity.Jobs, error) {
+	var jobs []entity.Jobs
+
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuider := r.db.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	result := queryBuider.Model(&entity.Jobs{}).Where(job).Find(&jobs)
+	if result.Error != nil {
+		msg := result.Error
+		return nil, msg
+	}
+
+	return &jobs, nil
 }
