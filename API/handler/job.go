@@ -46,3 +46,17 @@ func (h *jobHandler) GetAllJobsWithQuery(c *gin.Context) {
 	userResponse := helper.APIResponse("get all jobs succeed", 200, "success", jobLists)
 	c.JSON(200, userResponse)
 }
+
+func (h *jobHandler) ShowJobByIDHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	job, err := h.jobService.FindJobByID(id)
+	if err != nil {
+		responseError := helper.APIResponse("input params error", 400, "bad request", gin.H{"errors": err.Error()})
+
+		c.JSON(400, responseError)
+		return
+	}
+	response := helper.APIResponse("get question succeed", 200, "success", job)
+	c.JSON(200, response)
+}

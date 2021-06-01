@@ -8,6 +8,7 @@ import (
 type JobRepository interface {
 	GetAllJobs() ([]entity.Jobs, error)
 	GetAllJobsQuery(jobs *entity.Jobs, pagination *entity.Pagination) (*[]entity.Jobs, error)
+	GetJobByID(id string) (entity.Jobs, error)
 }
 
 type Repository struct {
@@ -41,4 +42,14 @@ func (r *Repository) GetAllJobsQuery(job *entity.Jobs, pagination *entity.Pagina
 	}
 
 	return &jobs, nil
+}
+
+func (r *Repository) GetJobByID(id string) (entity.Jobs, error) {
+	var job entity.Jobs
+
+	if err := r.db.Where("id = ?", id).Find(&job).Error; err != nil {
+		return job, err
+	}
+
+	return job, nil
 }

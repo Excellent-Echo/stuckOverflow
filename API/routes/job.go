@@ -13,7 +13,8 @@ var (
 )
 
 func JobRoute(r *gin.Engine) {
-	r.GET("/jobs/all", jobHandler.ShowAllJobsHandler)
-	r.GET("/jobs", jobHandler.GetAllJobsWithQuery)
+	// r.GET("/jobs/all", jobHandler.ShowAllJobsHandler)
+	r.GET("/jobs/all", jobHandler.GetAllJobsWithQuery)
+	r.GET("/jobs/:id", jobHandler.ShowJobByIDHandler)
 
 }
