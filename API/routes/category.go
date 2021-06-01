@@ -18,4 +18,5 @@ func CategoryRoute(r *gin.Engine) {
 	// r.GET("/categories/:category_name", categoryHandler.ShowCategoryByNameHandler)
 	r.PUT("/categories/:category_name", handler.Middleware(userService, authService), categoryHandler.UpdateCategoryByNameHandler)
 	r.GET("/questions/categories/:category_name", categoryHandler.ShowAllQuestionsByCategoryHandler)
+	r.DELETE("category/:category_name", handler.Middleware(userService, authService), categoryHandler.DeleteCategoryHandler)
 }

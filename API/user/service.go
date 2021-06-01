@@ -53,7 +53,7 @@ func (s *userService) SaveNewUser(user entity.UserInput) (UserInputFormat, error
 }
 
 func (s *userService) LoginUser(input entity.LoginUserInput) (entity.User, error) {
-	user, err := s.repository.FindByEmail(input.Email)
+	user, err := s.repository.FindByUserName(input.UserName)
 
 	if err != nil {
 		return user, err

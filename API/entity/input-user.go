@@ -1,7 +1,7 @@
 package entity
 
 type LoginUserInput struct {
-	Email    string `json:"email" binding:"required,email"`
+	UserName string `json:"user_name" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 

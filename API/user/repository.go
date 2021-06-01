@@ -7,7 +7,7 @@ import (
 
 type UserRepository interface {
 	CreateUser(user entity.User) (entity.User, error)
-	FindByEmail(email string) (entity.User, error)
+	FindByUserName(userName string) (entity.User, error)
 	GetAll() ([]entity.User, error)
 	GetOneUser(id string) (entity.User, error)
 	UpdateUserDetail(id string, dataUpdate map[string]interface{}) (entity.User, error)
@@ -30,10 +30,10 @@ func (r *Repository) CreateUser(user entity.User) (entity.User, error) {
 	return user, nil
 }
 
-func (r *Repository) FindByEmail(email string) (entity.User, error) {
+func (r *Repository) FindByUserName(userName string) (entity.User, error) {
 	var user entity.User
 
-	if err := r.db.Where("email = ?", email).Find(&user).Error; err != nil {
+	if err := r.db.Where("user_name = ?", userName).Find(&user).Error; err != nil {
 		return user, err
 	}
 
