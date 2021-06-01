@@ -53,21 +53,6 @@ func (h *categoryHandler) CreateCategoryHandler(c *gin.Context) {
 	c.JSON(201, newResponse)
 }
 
-func (h *categoryHandler) ShowCategoryByNameHandler(c *gin.Context) {
-	categoryName := c.Param("category_name")
-
-	category, err := h.categoryService.FindCategoryByName(categoryName)
-	if err != nil {
-		responseError := helper.APIResponse("input params error", 400, "bad request", gin.H{"errors": err.Error()})
-
-		c.JSON(400, responseError)
-		return
-	}
-
-	response := helper.APIResponse("get category succeed", 200, "success", category)
-	c.JSON(200, response)
-}
-
 func (h *categoryHandler) UpdateCategoryByNameHandler(c *gin.Context) {
 
 	categoryName := c.Params.ByName("category_name")

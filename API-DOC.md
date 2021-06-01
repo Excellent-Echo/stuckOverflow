@@ -19,7 +19,6 @@ https://stuckoverflow.herokuapp.com
 
 - `GET /categories`
 - `POST /categories`
-- `GET /categories/:category_name`
 
 ### questions
 
