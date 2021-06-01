@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	// jobsapi.StoreToDB()
 	r := gin.Default()
 	r.Use(cors.Default())
 
@@ -16,6 +17,7 @@ func main() {
 	routes.QuestionRoute(r)
 	routes.CategoryRoute(r)
 	routes.AnswerRoute(r)
+	routes.JobRoute(r)
 
 	port := os.Getenv("PORT")
 	r.Run(":" + port)
