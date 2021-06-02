@@ -10,14 +10,13 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import { Button, Drawer, ThemeProvider } from "@material-ui/core";
+import { Button, ThemeProvider } from "@material-ui/core";
 import Theme from "../styles/Theme";
 import userLoginAction from "../redux/user/login/userLoginAction";
 import { useHistory } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import useStyles from "../styles/Style";
 import { useEffect } from "react";
-import ResponsiveDrawer, { NavDrawer } from "./Drawer";
 
 export default function PrimarySearchAppBar() {
   const isAuthUser = !!localStorage.getItem("accessToken");

@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RegisterPage from './pages/Register';
 import SignIn from './pages/Login';
 import Home from './pages/Home';
-import Header from "./components/Header";
-import Sidebar from './components/Sidebar';
+import AskQuestion from './pages/AskQuestion';
 
 function App() {
   return (
@@ -16,6 +15,7 @@ function App() {
               <Route path="/signup" exact component={RegisterPage} />
               <Route path="/login" exact component={SignIn} />
               {/* <Route path="/admin" exact component={HomePage} /> */}
+              <Route path="/questions/ask" exact component={AskQuestion} />
               <Route path="/" exact component={Home} />
             </Switch>
           </Router>
