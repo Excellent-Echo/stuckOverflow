@@ -8,7 +8,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -16,7 +15,6 @@ import Alert from "@material-ui/lab/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import userRegisterAction from "../redux/user/register/userRegisterAction";
-import { LoadingContext } from "react-router-loading";
 import Header from "../components/Header";
 import Theme from "../styles/Theme";
 import logo from "../assets/stuckoverflowlogo.png";
@@ -60,14 +58,12 @@ const SignUp = () => {
   const [validated, setValidated] = useState(false);
   const isAuthUser = !!localStorage.getItem("accessToken");
   const classes = useStyles();
-  const loadingContext = useContext(LoadingContext);
 
   useEffect(() => {
     if (isAuthUser) {
       history.push("/");
     }
     dispatch(userRegisterAction.resetForm());
-    loadingContext.done();
   }, []);
 
   const handleRegisterSubmit = (e) => {

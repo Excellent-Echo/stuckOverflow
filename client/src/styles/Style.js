@@ -1,6 +1,14 @@
 import { fade, makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+  "@global": {
+    ul: {
+      margin: 0,
+      padding: 0,
+      listStyle: "none",
+    },
+  },
+
   grow: {
     flexGrow: 1,
   },
@@ -65,6 +73,54 @@ const useStyles = makeStyles((theme) => ({
   link: {
     margin: theme.spacing(1, 1.5),
   },
+
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  toolbar: {
+    flexWrap: "wrap",
+  },
+  toolbarTitle: {
+    flexGrow: 1,
+  },
+  link: {
+    margin: theme.spacing(1, 1.5),
+  },
+  heroContent: {
+    padding: theme.spacing(3, 0, 3),
+  },
+  footer: {
+    borderTop: `1px solid ${theme.palette.divider}`,
+    marginTop: theme.spacing(8),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
+    [theme.breakpoints.up("sm")]: {
+      paddingTop: theme.spacing(6),
+      paddingBottom: theme.spacing(6),
+    },
+  },
+
+  // question style
+  card: {
+    display: "flex",
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2),
+  },
+  cardDetails: {
+    flex: 1,
+  },
+  customBox: {
+    display: "-webkit-box",
+    boxOrient: "vertical",
+    lineClamp: 2,
+    wordBreak: "break-all",
+    overflow: "hidden",
+  },
+  cardContent: {
+    display: "flex",
+    flexDirection: "column",
+  },
+
 }));
 
 
