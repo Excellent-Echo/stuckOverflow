@@ -1,6 +1,10 @@
 import React from 'react';
 import './App.css';
-import Login from './components/Login';
+import Footer from '../src/components/layout/Footer';
+import Dashboard from './components/dashboard/Dashboard';
+import mainListItems from './components/dashboard/listItems';
+import Title from './components/dashboard/Title';
+
 
 function App() {
   return (
@@ -8,8 +12,11 @@ function App() {
       <header>
       </header>
       <body>
-        <Login />
+        <Dashboard />
+        <mainListItems />
+        <Title />
       </body>
+      <Footer />
     </div>
   );
 }
