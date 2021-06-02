@@ -11,6 +11,7 @@ type CategoryRepository interface {
 	FindCategoryName(categoryName string) (entity.Categories, error)
 	UpdateByID(category_name string, dataUpdate map[string]interface{}) (entity.Categories, error)
 	GetAllQuestionsByCategory(categoryID int) ([]entity.Questions, error)
+	DeleteCategory(categoryName string) (string, error)
 }
 
 type Repository struct {
@@ -73,4 +74,12 @@ func (r *Repository) GetAllQuestionsByCategory(categoryID int) ([]entity.Questio
 	}
 
 	return Questions, nil
+}
+
+func (r *Repository) DeleteCategory(id string) (string, error) {
+	if err := r.db.Where("id = ?", id).Delete(&entity.Categories{}).Error; err != nil {
+		return "error", err
+	}
+
+	return "success", nil
 }

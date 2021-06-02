@@ -7,11 +7,12 @@ import (
 
 type UserRepository interface {
 	CreateUser(user entity.User) (entity.User, error)
-	FindByEmail(email string) (entity.User, error)
+	FindByUserName(userName string) (entity.User, error)
 	GetAll() ([]entity.User, error)
 	GetOneUser(id string) (entity.User, error)
 	UpdateUserDetail(id string, dataUpdate map[string]interface{}) (entity.User, error)
 	DeleteUser(id string) (string, error)
+	UpdateAvatar(id string, dataUpdate map[string]interface{}) (entity.User, error)
 }
 
 type Repository struct {
@@ -30,10 +31,10 @@ func (r *Repository) CreateUser(user entity.User) (entity.User, error) {
 	return user, nil
 }
 
-func (r *Repository) FindByEmail(email string) (entity.User, error) {
+func (r *Repository) FindByUserName(userName string) (entity.User, error) {
 	var user entity.User
 
-	if err := r.db.Where("email = ?", email).Find(&user).Error; err != nil {
+	if err := r.db.Where("user_name = ?", userName).Find(&user).Error; err != nil {
 		return user, err
 	}
 
@@ -81,4 +82,18 @@ func (r *Repository) DeleteUser(id string) (string, error) {
 	}
 
 	return "success", nil
+}
+
+func (r *Repository) UpdateAvatar(id string, dataUpdate map[string]interface{}) (entity.User, error) {
+	var user entity.User
+
+	if err := r.db.Model(&user).Where("id = ?", id).Updates(dataUpdate).Error; err != nil {
+		return user, err
+	}
+
+	if err := r.db.Where("id = ?", id).Find(&user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
 }
