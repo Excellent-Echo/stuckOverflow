@@ -175,3 +175,45 @@ func (h *userHandler) DeleteByUserIDHandler(c *gin.Context) {
 	userResponse := helper.APIResponse("user was deleted successfully", 200, "success", user)
 	c.JSON(200, userResponse)
 }
+
+func (h *userHandler) UpdateAvatarByIDHandler(c *gin.Context) {
+
+	userData := int(c.MustGet("currentUser").(int))
+
+	ID := strconv.Itoa(userData)
+
+	file, err := c.FormFile("avatar") // postman
+
+	if err != nil {
+		responseError := helper.APIResponse("status bad request", 400, "error", gin.H{"error": err.Error()})
+
+		c.JSON(400, responseError)
+		return
+	}
+
+	path := fmt.Sprintf("images/profile-%d-%s", userData, file.Filename)
+
+	err = c.SaveUploadedFile(file, path)
+
+	if err != nil {
+		// log.Println("error line 63")
+		responseError := helper.APIResponse("status bad request", 400, "error", gin.H{"error": err.Error()})
+
+		c.JSON(400, responseError)
+		return
+	}
+
+	pathProfileSave := "https://todo-rest-api-golang.herokuapp.com/" + path
+
+	userProfile, err := h.userService.UpdateAvatarByID(pathProfileSave, ID)
+
+	if err != nil {
+		responseError := helper.APIResponse("Internal server error", 500, "error", gin.H{"error": err.Error()})
+
+		c.JSON(500, responseError)
+		return
+	}
+
+	response := helper.APIResponse("success update user profile", 200, "success", userProfile)
+	c.JSON(200, response)
+}

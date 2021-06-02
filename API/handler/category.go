@@ -96,3 +96,19 @@ func (h *categoryHandler) ShowAllQuestionsByCategoryHandler(c *gin.Context) {
 	c.JSON(200, userResponse)
 
 }
+
+func (h *categoryHandler) DeleteCategoryHandler(c *gin.Context) {
+	categoryName := c.Param("category_name")
+
+	category, err := h.categoryService.DeleteCategoryByName(categoryName)
+
+	if err != nil {
+		responseError := helper.APIResponse("input params error", 400, "bad request", gin.H{"errors": err.Error()})
+
+		c.JSON(400, responseError)
+		return
+	}
+
+	response := helper.APIResponse("category was deleted successfully", 200, "success", category)
+	c.JSON(200, response)
+}

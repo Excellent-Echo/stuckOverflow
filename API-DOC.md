@@ -20,6 +20,7 @@ https://stuckoverflow.herokuapp.com
 - `GET /categories`
 - `POST /categories`
 - `GET /categories/:category_name`
+- `DELETE /categories/:category_name`
 
 ### questions
 
@@ -702,6 +703,55 @@ _Response (500 - Internal Server Error)_
   },
   "data" : {
       "error" : ""
+  }
+}
+```
+
+### DELETE /category/:category_name
+
+> Delete category by name
+
+_Request Header_
+
+```go
+{
+   "Authorization": "<your Authorization>"
+}
+```
+
+_Request Body_
+
+```go
+not needed
+```
+
+_Response (200)_
+
+```go
+{
+    "meta": {
+        "message": "category was deleted successfully",
+        "code": 200,
+        "status": "success"
+    },
+    "data": {
+        "message": "delete Javascript category succeed",
+        "delete_time": "2021-06-01T19:49:27.5736784+07:00"
+    }
+}
+```
+
+_Response (500 - Internal Server Error)_
+
+```go
+{
+  "meta" : {
+      "message": "Internal server error",
+      "code": 500,
+      "status": "error"
+  },
+  "data" : {
+      "error": ""
   }
 }
 ```

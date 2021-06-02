@@ -6,6 +6,7 @@ import (
 
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
 	"github.com/Excellent-Echo/stuckOverflow/API/API/question"
+	"github.com/Excellent-Echo/stuckOverflow/API/API/user"
 )
 
 type CategoryService interface {
@@ -14,6 +15,7 @@ type CategoryService interface {
 	FindCategoryByName(categoryName string) (CategoryFormat, error)
 	UpdateCategoryByName(categoryID string, dataInput entity.UpdateCategoryInput) (InputCategoryFormat, error)
 	GetAllQuestionsByCategory(categoryName string) ([]question.QuestionFormat, error)
+	DeleteCategoryByName(categoryName string) (interface{}, error)
 }
 
 type categoryService struct {
@@ -124,4 +126,33 @@ func (s *categoryService) GetAllQuestionsByCategory(categoryName string) ([]ques
 	}
 
 	return questionsFormat, nil
+}
+
+func (s *categoryService) DeleteCategoryByName(categoryName string) (interface{}, error) {
+	category, err := s.repository.FindCategoryName(categoryName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if category.CategoryName == "" {
+		newError := fmt.Sprintf("category name %s is not found", categoryName)
+		return nil, errors.New(newError)
+	}
+
+	status, err := s.repository.DeleteCategory(categoryName)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if status == "error" {
+		return nil, errors.New("error delete in internal server")
+	}
+
+	msg := fmt.Sprintf("delete %s category succeed", categoryName)
+
+	formatDelete := user.FormatDelete(msg)
+
+	return formatDelete, nil
 }

@@ -17,6 +17,7 @@ type UserService interface {
 	GetUserByID(id string) (UserFormat, error)
 	UpdateUserByID(id string, dataInput entity.UpdateUserInput) (UserFormat, error)
 	DeleteUserByID(id string) (interface{}, error)
+	UpdateAvatarByID(pathFile string, id string) (UserFormat, error)
 }
 
 type userService struct {
@@ -53,7 +54,7 @@ func (s *userService) SaveNewUser(user entity.UserInput) (UserInputFormat, error
 }
 
 func (s *userService) LoginUser(input entity.LoginUserInput) (entity.User, error) {
-	user, err := s.repository.FindByEmail(input.Email)
+	user, err := s.repository.FindByUserName(input.UserName)
 
 	if err != nil {
 		return user, err
@@ -191,4 +192,24 @@ func (s *userService) DeleteUserByID(id string) (interface{}, error) {
 	formatDelete := FormatDelete(msg)
 
 	return formatDelete, nil
+}
+
+func (s *userService) UpdateAvatarByID(pathFile string, id string) (UserFormat, error) {
+	var dataUpdate = map[string]interface{}{}
+
+	if err := helper.ValidateIDNumber(id); err != nil {
+		return UserFormat{}, err
+	}
+
+	dataUpdate["avatar"] = pathFile
+
+	userProfileUpdate, err := s.repository.UpdateAvatar(id, dataUpdate)
+
+	if err != nil {
+		return UserFormat{}, err
+	}
+
+	formatUser := FormattingUser(userProfileUpdate)
+
+	return formatUser, nil
 }
