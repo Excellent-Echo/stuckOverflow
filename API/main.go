@@ -11,7 +11,10 @@ import (
 func main() {
 	// jobsapi.StoreToDB()
 	r := gin.Default()
-	r.Use(cors.Default())
+	// r.Use(cors.DefaultConfig())
+	r.Use(cors.New(cors.Config{
+		AllowHeaders: []string{"Authorization"},
+	}))
 
 	routes.UserRoute(r)
 	routes.QuestionRoute(r)
