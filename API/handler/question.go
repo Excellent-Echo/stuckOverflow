@@ -9,12 +9,13 @@ import (
 )
 
 type questionHandler struct {
-	questionService question.QuestionService
-	authService     auth.Service
+	questionService    question.QuestionService
+	questionRepository question.QuestionRepository
+	authService        auth.Service
 }
 
-func NewQuestionHandler(questionService question.QuestionService, authService auth.Service) *questionHandler {
-	return &questionHandler{questionService, authService}
+func NewQuestionHandler(questionService question.QuestionService, questionRepository question.QuestionRepository, authService auth.Service) *questionHandler {
+	return &questionHandler{questionService, questionRepository, authService}
 }
 
 func (h *questionHandler) ShowAllQuestionsHandler(c *gin.Context) {
@@ -134,5 +135,21 @@ func (h *questionHandler) DeleteByQuestionHandler(c *gin.Context) {
 	}
 
 	response := helper.APIResponse("question was deleted successfully", 200, "success", question)
+	c.JSON(200, response)
+}
+
+func (h *questionHandler) GetAllQuestionsWithQuery(c *gin.Context) {
+	pagination := h.questionService.GenerateQueryFromRequest(c)
+	var question entity.Questions
+	questionsList, err := h.questionRepository.SearchQuestion(&question, &pagination)
+
+	if err != nil {
+		responseError := helper.APIResponse("internal server error", 500, "error", gin.H{"error": err.Error()})
+
+		c.JSON(500, responseError)
+		return
+	}
+
+	response := helper.APIResponse("get all jobs succeed", 200, "success", questionsList)
 	c.JSON(200, response)
 }

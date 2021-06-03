@@ -9,7 +9,7 @@ import (
 var (
 	questionRepository = question.NewRepository(DB)
 	questionService    = question.QuestionNewService(questionRepository)
-	questionHandler    = handler.NewQuestionHandler(questionService, authService)
+	questionHandler    = handler.NewQuestionHandler(questionService, questionRepository, authService)
 )
 
 func QuestionRoute(r *gin.Engine) {
@@ -18,5 +18,6 @@ func QuestionRoute(r *gin.Engine) {
 	r.GET("/questions/:id", questionHandler.ShowQuestionByIdHandler)
 	r.PUT("/questions/:id/edit", handler.Middleware(userService, authService), questionHandler.UpdateQuestionByIdHandler)
 	r.DELETE("/questions/:id", handler.Middleware(userService, authService), questionHandler.DeleteByQuestionHandler)
+	r.GET("/questions/", questionHandler.GetAllQuestionsWithQuery)
 
 }

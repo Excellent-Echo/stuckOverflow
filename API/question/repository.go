@@ -1,6 +1,8 @@
 package question
 
 import (
+	"fmt"
+
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
 	"gorm.io/gorm"
 )
@@ -11,6 +13,7 @@ type QuestionRepository interface {
 	FindQuestionById(id string) (entity.Questions, error)
 	UpdateQuestion(id string, dataUpdate map[string]interface{}) (entity.Questions, error)
 	DeleteQuestion(id string) (string, error)
+	SearchQuestion(question *entity.Questions, pagination *entity.Pagination) (*[]entity.Questions, error)
 }
 
 type Repository struct {
@@ -24,7 +27,7 @@ func NewRepository(db *gorm.DB) *Repository {
 func (r *Repository) FindAllQuestions() ([]entity.Questions, error) {
 	var Questions []entity.Questions
 
-	err := r.db.Preload("User").Preload("Category").Preload("Answers").Find(&Questions).Error
+	err := r.db.Order("created_at desc").Preload("User").Preload("Category").Preload("Answers").Find(&Questions).Error
 	if err != nil {
 		return Questions, err
 	}
@@ -70,4 +73,20 @@ func (r *Repository) DeleteQuestion(id string) (string, error) {
 	}
 
 	return "success", nil
+}
+func (r *Repository) SearchQuestion(question *entity.Questions, pagination *entity.Pagination) (*[]entity.Questions, error) {
+	var questions []entity.Questions
+
+	querySearch := fmt.Sprintf("title LIKE '%%%s%%'", pagination.Search)
+
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuider := r.db.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	result := queryBuider.Model(&entity.Questions{}).Where(querySearch).Find(&questions)
+	if result.Error != nil {
+		msg := result.Error
+		return nil, msg
+	}
+
+	return &questions, nil
+
 }
