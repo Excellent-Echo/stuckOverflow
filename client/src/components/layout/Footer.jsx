@@ -16,7 +16,7 @@ const FooterDiv = styled.div`
 `;
 const Footer = () => {
   return (
-    <>
+    <div>
       <FooterDiv>
         <div className="container">
           <div className="row">
@@ -54,7 +54,7 @@ const Footer = () => {
           </div>
         </div>
       </FooterDiv>
-    </>
+    </div>
   );
 };
 

@@ -43,7 +43,7 @@ const QuestionDetail = () => {
   }, [id]);
 
   return (
-    <>
+    <div>
       <ThemeProvider theme={Theme}>
         {Object.keys(detailQuestionsData).length === 0 ? (
           <Box
@@ -55,7 +55,7 @@ const QuestionDetail = () => {
             <CircularProgress />
           </Box>
         ) : (
-          <>
+          <div>
             <CssBaseline />
             <Header />
             <h1>{detailQuestionsData.data.data.title}</h1>
@@ -70,10 +70,10 @@ const QuestionDetail = () => {
                 <Copyright />
               </Box>
             </Container>
-          </>
+          </div>
         )}
       </ThemeProvider>
-    </>
+    </div>
   );
 };
 

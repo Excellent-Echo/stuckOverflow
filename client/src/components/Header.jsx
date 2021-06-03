@@ -132,7 +132,7 @@ export default function PrimarySearchAppBar() {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {!isAuthUser && (
-                <>
+                <div>
                   <Button
                     href="/login"
                     color="secondary"
@@ -149,7 +149,7 @@ export default function PrimarySearchAppBar() {
                   >
                     Sign up
                   </Button>
-                </>
+                </div>
               )}
               {isAuthUser && (
                 <IconButton

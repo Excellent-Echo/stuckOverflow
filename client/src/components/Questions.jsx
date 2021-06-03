@@ -31,7 +31,7 @@ const Questions = () => {
   }, [allQuestions]);
 
   return (
-    <>
+    <div>
       <ThemeProvider theme={Theme}>
         <Grid item xs={12} md={12}>
           <Box display="flex" justifyContent="space-between">
@@ -92,7 +92,7 @@ const Questions = () => {
             })}
         </Grid>
       </ThemeProvider>
-    </>
+    </div>
   );
 };
 

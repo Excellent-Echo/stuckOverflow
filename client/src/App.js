@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import RegisterPage from './pages/Register';
-import SignIn from './pages/Login';
-import Home from './pages/Home';
-import AskQuestion from './pages/AskQuestion';
-import Footer from '../src/components/layout/Footer';
-import Dashboard from './components/dashboard/Dashboard';
-import mainListItems from './components/dashboard/listItems';
-import Title from './components/dashboard/Title';
-import QuestionDetail from './pages/QuestionDetail';
+import RegisterPage from "./pages/Register";
+import SignIn from "./pages/Login";
+import Home from "./pages/Home";
+import AskQuestion from "./pages/AskQuestion";
+import Footer from "../src/components/layout/Footer";
+import Dashboard from "./components/dashboard/Dashboard";
+import mainListItems from "./components/dashboard/listItems";
+import Title from "./components/dashboard/Title";
+import QuestionDetail from "./pages/QuestionDetail";
 
 function App() {
   return (
-    <>
+    <div>
       <div className="App">
         <Router>
           <Switch>
@@ -33,7 +33,7 @@ function App() {
         </body>
         <Footer /> */}
       </div>
-    </>
+    </div>
   );
 }
 
