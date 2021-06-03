@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -45,14 +45,12 @@ const SignIn = () => {
   const history = useHistory();
   const isAuthUser = !!localStorage.getItem("accessToken");
   const classes = useStyles();
-  // const loadingContext = useContext(LoadingContext);
 
   useEffect(() => {
     if (isAuthUser) {
       history.push("/");
     }
     dispatch(userLoginAction.resetForm());
-    // loadingContext.done();
   }, []);
 
   const handlerLoginSubmit = (e) => {
@@ -133,7 +131,7 @@ const SignIn = () => {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link href="/signup" variant="body2">
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>

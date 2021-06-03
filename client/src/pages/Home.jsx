@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -12,15 +12,17 @@ import { CircularProgress } from "@material-ui/core";
 import questionAction from "../redux/question/questionAction";
 import useStyles from "../styles/Style";
 import Copyright from "../components/Copyright";
+import categoryAction from "../redux/category/get/categoryAction";
 
 const Home = () => {
   const classes = useStyles();
   const questionsData = useSelector((state) => state.question);
   const dispatch = useDispatch();
+  const [allQuestions, setAllQuestions] = useState(questionsData);
 
   useEffect(() => {
     dispatch(questionAction.fetchAllQuestions());
-  }, []);
+  }, [allQuestions]);
 
   return (
     <React.Fragment>
