@@ -58,7 +58,9 @@ const QuestionDetail = () => {
           <>
             <CssBaseline />
             <Header />
-            <pre>{JSON.stringify(detailQuestionsData.data.data)}</pre>
+            <h1>{detailQuestionsData.data.data.title}</h1>
+            {/* <pre>{JSON.stringify(detailQuestionsData.data.data)}</pre> */}
+            <p>{detailQuestionsData.data.data.content}</p>
             <Container
               maxWidth="md"
               component="footer"
