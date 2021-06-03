@@ -14,7 +14,7 @@ var (
 
 func QuestionRoute(r *gin.Engine) {
 	r.GET("/questions", questionHandler.ShowAllQuestionsHandler)
-	r.POST("/questions/ask", questionHandler.CreateQuestionHandler)
+	r.POST("/questions/ask", handler.Middleware(userService, authService), questionHandler.CreateQuestionHandler)
 	r.GET("/questions/:id", questionHandler.ShowQuestionByIdHandler)
 	r.PUT("/questions/:id/edit", handler.Middleware(userService, authService), questionHandler.UpdateQuestionByIdHandler)
 	r.DELETE("/questions/:id", handler.Middleware(userService, authService), questionHandler.DeleteByQuestionHandler)
