@@ -1,4 +1,6 @@
 import { combineReducers } from "redux";
+import categoryReducer from "./category/get/categoryReducer";
+import detailQuestionReducer from "./question/detail/detailQuestionReducer";
 import postQuestionReducer from "./question/post/postQuestionReducer";
 import questionReducer from "./question/questionReducer";
 import userLoginReducer from "./user/login/userLoginReducer";
@@ -9,6 +11,8 @@ const rootReducer = combineReducers({
   userLogin: userLoginReducer,
   question: questionReducer,
   postQuestion: postQuestionReducer,
+  detailQuestion: detailQuestionReducer,
+  categoryList: categoryReducer,
 });
 
 export default rootReducer;

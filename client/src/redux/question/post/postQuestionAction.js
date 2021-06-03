@@ -35,7 +35,7 @@ const setCategory = categoryID => {
 
 const setErrorMessage = errorMessage => {
   return {
-    type: "USER_REGISTER_SET_ERROR_MESSAGE",
+    type: "ASK_QUESTION_SET_ERROR_MESSAGE",
     payload: {
       errorMessage: errorMessage,
     },
@@ -53,25 +53,24 @@ const setErrorMessage = errorMessage => {
 
 const startLoading = () => {
   return {
-    type: "USER_REGISTER_START_LOADING",
+    type: "ASK_QUESTION_START_LOADING",
   };
 };
 
 const stopLoading = () => {
   return {
-    type: "USER_REGISTER_STOP_LOADING",
+    type: "ASK_QUESTION_STOP_LOADING",
   };
 };
 
-const askQuestion = (title, content, categoryID) => async dispatch => {
+const askQuestion = (title, content, categoryID, history) => async dispatch => {
   try {
     dispatch(startLoading());
-    // dispatch(setSuccessMessage(""));
     dispatch(setErrorMessage(""));
     const submitData = {
       title: title,
       content: content,
-      category_id: categoryID,
+      category_id: parseInt(categoryID),
     };
 
     const question = await stuckoverflowAPI({
@@ -82,6 +81,9 @@ const askQuestion = (title, content, categoryID) => async dispatch => {
         Authorization: localStorage.getItem("accessToken"),
       },
     });
+
+    const questionID = question.data.data.id
+    history.push("/questions/" + questionID)
 
     dispatch(stopLoading());
 

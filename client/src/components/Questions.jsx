@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -14,7 +15,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  Link,
   ThemeProvider,
 } from "@material-ui/core";
 import Theme from "../styles/Theme";
@@ -24,10 +24,11 @@ const Questions = () => {
   const classes = useStyles();
   const questionsData = useSelector((state) => state.question);
   const dispatch = useDispatch();
+  const [allQuestions, setAllQuestions] = useState(questionsData);
 
   useEffect(() => {
     dispatch(questionAction.fetchAllQuestions());
-  }, []);
+  }, [allQuestions]);
 
   return (
     <>
@@ -47,9 +48,11 @@ const Questions = () => {
                 <Card className={classes.card} key={index}>
                   <div className={classes.cardDetails}>
                     <CardContent className={classes.cardContent}>
-                      <Typography component="h2" variant="h6">
-                        {data.title}
-                      </Typography>
+                      <Link to={`/questions/${data.id}`}>
+                        <Typography component="h2" variant="h6">
+                          {data.title}
+                        </Typography>
+                      </Link>
                       <Typography
                         variant="body2"
                         paragraph
