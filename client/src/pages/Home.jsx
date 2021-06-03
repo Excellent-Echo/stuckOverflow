@@ -3,7 +3,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Header from "../components/Header";
@@ -12,18 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
 import questionAction from "../redux/question/questionAction";
 import useStyles from "../styles/Style";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Stuck Overflow
-      </Link>{" "}
-      {new Date().getFullYear()}
-    </Typography>
-  );
-}
+import Copyright from "../components/Copyright";
 
 const Home = () => {
   const classes = useStyles();

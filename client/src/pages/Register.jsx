@@ -18,19 +18,8 @@ import userRegisterAction from "../redux/user/register/userRegisterAction";
 import Header from "../components/Header";
 import Theme from "../styles/Theme";
 import logo from "../assets/stuckoverflowlogo.png";
+import Copyright from "../components/Copyright";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Stuck Overflow
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 // function buat styling material ui
 const useStyles = makeStyles((theme) => ({
   paper: {

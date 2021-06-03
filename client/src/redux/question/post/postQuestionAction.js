@@ -83,12 +83,10 @@ const askQuestion = (title, content, categoryID) => async dispatch => {
       },
     });
 
-    // dispatch(setSuccessMessage("Congratulations, your account has been successfully created. Please login."))
     dispatch(stopLoading());
 
   } catch (error) {
     console.log(error);
-    // dispatch(setErrorMessage(error.response.data.data.errors || ["internal server error"]));
     dispatch(stopLoading());
   }
 
