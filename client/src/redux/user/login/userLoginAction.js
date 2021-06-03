@@ -66,8 +66,7 @@ const logout = () => {
   };
 };
 
-
-const login = (userName, password) => async dispatch => {
+const login = (userName, password, history) => async dispatch => {
   try {
     dispatch(startLoading());
     dispatch(setSuccessMessage(""));
@@ -89,7 +88,7 @@ const login = (userName, password) => async dispatch => {
 
     dispatch(isLogin());
     dispatch(stopLoading());
-
+    history.push("/");
   } catch (error) {
     console.log(error)
     dispatch(setErrorMessage(["The email or password is incorrect."]));

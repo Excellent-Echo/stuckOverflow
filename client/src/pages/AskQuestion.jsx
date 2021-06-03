@@ -19,18 +19,7 @@ import Theme from "../styles/Theme";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import postQuestionAction from "../redux/question/post/postQuestionAction";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Stuck Overflow
-      </Link>{" "}
-      {new Date().getFullYear()}
-    </Typography>
-  );
-}
+import Copyright from "../components/Copyright";
 
 const AskQuestion = () => {
   const classes = useStyles();

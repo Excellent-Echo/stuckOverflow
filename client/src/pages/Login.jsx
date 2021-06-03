@@ -17,19 +17,7 @@ import userLoginAction from "../redux/user/login/userLoginAction";
 import Header from "../components/Header";
 import Theme from "../styles/Theme";
 import logo from "../assets/stuckoverflowlogo.png";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Stuck Overflow
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../components/Copyright";
 
 // function styling material ui
 const useStyles = makeStyles((theme) => ({
@@ -70,9 +58,12 @@ const SignIn = () => {
   const handlerLoginSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      userLoginAction.login(userLoginData.userName, userLoginData.password)
+      userLoginAction.login(
+        userLoginData.userName,
+        userLoginData.password,
+        history
+      )
     );
-    history.push("/");
   };
 
   return (
@@ -100,7 +91,6 @@ const SignIn = () => {
                   margin="normal"
                   required
                   fullWidth
-                  id="userName"
                   label="User Name"
                   name="userName"
                   value={userLoginData.userName}
