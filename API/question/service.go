@@ -3,11 +3,13 @@ package question
 import (
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/Excellent-Echo/stuckOverflow/API/API/entity"
 	"github.com/Excellent-Echo/stuckOverflow/API/API/helper"
 	"github.com/Excellent-Echo/stuckOverflow/API/API/user"
+	"github.com/gin-gonic/gin"
 )
 
 type QuestionService interface {
@@ -16,6 +18,7 @@ type QuestionService interface {
 	FindQuestionById(id string) (QuestionFormat, error)
 	UpdateQuestionById(id string, dataInput entity.UpdateQuestionInput) (QuestionFormat, error)
 	DeleteQuestionById(id string) (interface{}, error)
+	GenerateQueryFromRequest(c *gin.Context) entity.Pagination
 }
 
 type questionService struct {
@@ -158,4 +161,35 @@ func (s *questionService) DeleteQuestionById(id string) (interface{}, error) {
 	formatDelete := user.FormatDelete(msg)
 
 	return formatDelete, nil
+}
+
+func (s *questionService) GenerateQueryFromRequest(c *gin.Context) entity.Pagination {
+	limit := 50
+	page := 1
+	sort := "created_at desc"
+	var search string
+	query := c.Request.URL.Query()
+	for key, value := range query {
+		queryValue := value[len(value)-1]
+		switch key {
+		case "search":
+			search = queryValue
+			break
+		case "limit":
+			limit, _ = strconv.Atoi(queryValue)
+			break
+		case "page":
+			page, _ = strconv.Atoi(queryValue)
+			break
+		case "sort":
+			sort = queryValue
+			break
+		}
+	}
+	return entity.Pagination{
+		Search: search,
+		Limit:  limit,
+		Page:   page,
+		Sort:   sort,
+	}
 }

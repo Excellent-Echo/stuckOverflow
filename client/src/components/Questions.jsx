@@ -9,7 +9,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Hidden from "@material-ui/core/Hidden";
 import { useDispatch, useSelector } from "react-redux";
 import questionAction from "../redux/question/questionAction";
-import LoadingSpinner from "./Spinner";
 import {
   Avatar,
   Box,
@@ -25,6 +24,7 @@ const Questions = () => {
   const questionsData = useSelector((state) => state.question);
   const dispatch = useDispatch();
   const [allQuestions, setAllQuestions] = useState(questionsData);
+  const [searchQuestions, setSearchQuestions] = useState("");
 
   useEffect(() => {
     dispatch(questionAction.fetchAllQuestions());

@@ -59,7 +59,7 @@ const AskQuestion = () => {
         )
       );
     }
-    setValue(categoryList.data[0]);
+    // setValue(categoryList.data[0]);
     setInputValue(value.category_name);
   };
 
