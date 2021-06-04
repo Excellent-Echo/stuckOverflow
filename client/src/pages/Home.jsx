@@ -13,6 +13,7 @@ import questionAction from "../redux/question/questionAction";
 import useStyles from "../styles/Style";
 import Copyright from "../components/Copyright";
 import categoryAction from "../redux/category/get/categoryAction";
+import Search from "../components/Search";
 
 const Home = () => {
   const classes = useStyles();
