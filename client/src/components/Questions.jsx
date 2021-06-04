@@ -52,7 +52,7 @@ const Questions = () => {
   };
 
   return (
-    <>
+    <div>
       <ThemeProvider theme={Theme}>
         <Container
           maxWidth="md"
@@ -189,7 +189,7 @@ const Questions = () => {
           </Grid>
         </Container>
       </ThemeProvider>
-    </>
+    </div>
   );
 };
 

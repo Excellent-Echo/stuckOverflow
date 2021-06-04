@@ -77,7 +77,7 @@ const SignUp = () => {
   };
 
   return (
-    <>
+    <div>
       <ThemeProvider theme={Theme}>
         <Header />
         <Container component="main" maxWidth="xs">
@@ -190,7 +190,7 @@ const SignUp = () => {
           )}
         </Container>
       </ThemeProvider>
-    </>
+    </div>
   );
 };
 

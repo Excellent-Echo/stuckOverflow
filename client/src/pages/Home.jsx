@@ -37,7 +37,7 @@ const Home = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <>
+        <div>
           <CssBaseline />
           <Header />
           {/* Hero unit */}
@@ -62,7 +62,7 @@ const Home = () => {
               <Copyright />
             </Box>
           </Container>
-        </>
+        </div>
       )}
       {/* End footer */}
     </React.Fragment>

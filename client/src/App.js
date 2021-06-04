@@ -18,7 +18,7 @@ function App() {
   let foo = params.get("search");
   let url = "/questions/?search" + foo
   return (
-    <>
+    <div>
       <div className="App">
         <Router>
           <Switch>
@@ -41,7 +41,7 @@ function App() {
         </body>
         <Footer /> */}
       </div>
-    </>
+    </div>
   );
 }
 
