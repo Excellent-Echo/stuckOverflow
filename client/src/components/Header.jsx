@@ -152,7 +152,7 @@ const HeaderAppBar = () => {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {!isAuthUser && (
-                <>
+                <div>
                   <Button
                     href="/login"
                     color="secondary"
@@ -169,7 +169,7 @@ const HeaderAppBar = () => {
                   >
                     Sign up
                   </Button>
-                </>
+                </div>
               )}
               {isAuthUser && (
                 <IconButton

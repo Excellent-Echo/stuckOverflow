@@ -64,7 +64,7 @@ const AskQuestion = () => {
   };
 
   return (
-    <>
+    <div>
       {Object.keys(categoryList).length === 0 ? (
         <Box
           display="flex"
@@ -209,7 +209,7 @@ const AskQuestion = () => {
           </Container>
         </ThemeProvider>
       )}
-    </>
+    </div>
   );
 };
 
