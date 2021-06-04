@@ -13,12 +13,14 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { Button, ThemeProvider } from "@material-ui/core";
 import Theme from "../styles/Theme";
 import userLoginAction from "../redux/user/login/userLoginAction";
-import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
+import { Redirect, useHistory, useLocation } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import useStyles from "../styles/Style";
 import { useEffect } from "react";
+import searchQuestionAction from "../redux/question/search/searchQuestionAction";
+import SearchBar from "./SearchBar";
 
-export default function PrimarySearchAppBar() {
+const HeaderAppBar = () => {
   const isAuthUser = !!localStorage.getItem("accessToken");
   const history = useHistory();
   const dispatch = useDispatch();
@@ -27,8 +29,22 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [querySearch, setQuerySearch] = useState("");
+  const searchQuestion = useSelector((state) => state.searchQuestion);
+  const location = useLocation();
 
   useEffect(() => {});
+
+  // const handleSearch = (e) => {
+  //   setQuerySearch(e.target.value);
+  // };
+
+  const handleSubmitSearch = () => {
+    dispatch(searchQuestionAction.fetchSearchQuestions(querySearch));
+    history.push({
+      pathname: "/questions/result/" + querySearch,
+    });
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -98,14 +114,14 @@ export default function PrimarySearchAppBar() {
       <div className={classes.grow}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
+            {/* <IconButton
               edge="start"
               className={classes.menuButton}
               color="inherit"
               aria-label="open drawer"
             >
               <MenuIcon />
-            </IconButton>
+            </IconButton> */}
             <a href="/" style={{ textDecoration: "none", color: "white" }}>
               <Typography
                 className={classes.title}
@@ -116,19 +132,23 @@ export default function PrimarySearchAppBar() {
                 Stuck Overflow
               </Typography>
             </a>
-            <div className={classes.search}>
+            <SearchBar onChange={(e) => console.log(e.target.value)} />
+            {/* <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div>
+              <form onSubmit={handleSubmitSearch}>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onChange={handleSearch}
+                />
+              </form>
+            </div> */}
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {!isAuthUser && (
@@ -182,4 +202,6 @@ export default function PrimarySearchAppBar() {
       </div>
     </ThemeProvider>
   );
-}
+};
+
+export default HeaderAppBar;

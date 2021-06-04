@@ -58,9 +58,26 @@ const QuestionDetail = () => {
           <>
             <CssBaseline />
             <Header />
-            <h1>{detailQuestionsData.data.data.title}</h1>
-            {/* <pre>{JSON.stringify(detailQuestionsData.data.data)}</pre> */}
-            <p>{detailQuestionsData.data.data.content}</p>
+            <Container
+              maxWidth="md"
+              component="main"
+              className={classes.heroContent}
+            >
+              <Grid item xs={12} md={12}>
+                <Box display="flex" justifyContent="flex-end">
+                  <Button
+                    href="/questions/ask"
+                    color="secondary"
+                    variant="contained"
+                  >
+                    Ask Question
+                  </Button>
+                </Box>
+              </Grid>
+              <h1>{detailQuestionsData.data.data.title}</h1>
+              {/* <pre>{JSON.stringify(detailQuestionsData.data.data)}</pre> */}
+              <p>{detailQuestionsData.data.data.content}</p>
+            </Container>
             <Container
               maxWidth="md"
               component="footer"
