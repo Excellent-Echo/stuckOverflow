@@ -33,18 +33,16 @@ const HeaderAppBar = () => {
   const searchQuestion = useSelector((state) => state.searchQuestion);
   const location = useLocation();
 
-  useEffect(() => {});
-
-  // const handleSearch = (e) => {
-  //   setQuerySearch(e.target.value);
-  // };
-
-  const handleSubmitSearch = () => {
-    dispatch(searchQuestionAction.fetchSearchQuestions(querySearch));
-    history.push({
-      pathname: "/questions/result/" + querySearch,
-    });
+  const handleSearch = (e) => {
+    setQuerySearch(e.target.value);
   };
+
+  // const handleSubmitSearch = () => {
+  //   dispatch(searchQuestionAction.fetchSearchQuestions(querySearch));
+  //   history.push({
+  //     pathname: "/questions/result/" + querySearch,
+  //   });
+  // };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -111,7 +109,7 @@ const HeaderAppBar = () => {
 
   return (
     <ThemeProvider theme={Theme}>
-      <div className={classes.grow}>
+      <div className={classes.grow} data={querySearch}>
         <AppBar position="static">
           <Toolbar>
             {/* <IconButton
@@ -132,12 +130,12 @@ const HeaderAppBar = () => {
                 Stuck Overflow
               </Typography>
             </a>
-            <SearchBar onChange={(e) => console.log(e.target.value)} />
+            {/* <SearchBar onChange={(e) => console.log(e.target.value)} /> */}
             {/* <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
-              <form onSubmit={handleSubmitSearch}>
+              <form>
                 <InputBase
                   placeholder="Search…"
                   classes={{
